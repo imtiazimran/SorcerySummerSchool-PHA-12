@@ -12,7 +12,7 @@ export const AuthContext = createContext(null)
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-
+    console.log(user)
     // singup
     const signUp = (email, password) =>{
         setLoading(true)
@@ -31,6 +31,7 @@ const AuthProvider = ({children}) => {
 
     useEffect(()=>{
         const unMount = onAuthStateChanged(auth, (currentUser) =>{
+            setLoading(false)
             setUser(currentUser)
         })
         return () =>{
@@ -39,7 +40,7 @@ const AuthProvider = ({children}) => {
 
     },[])
 
-    const logOut = () => signOut()
+    const logOut = () => signOut(auth)
     const authInfo = {
         signUp,
         login,

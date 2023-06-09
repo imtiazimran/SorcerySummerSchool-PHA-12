@@ -1,18 +1,19 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLogin";
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
 
     return (
-        <div className="hero min-h-screen bg-green-50">
+        <div className="hero min-h-screen bg-green-100">
             <div className="hero-content flex-col md:flex-row ">
                 <div className="text-center w-1/2 lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                 </div>
-                <div className="card flex-shrink-0  max-w-sm w-1/2 shadow-2xl bg-emerald-400">
+                <div className="card flex-shrink-0  max-w-sm w-1/2 shadow-2xl bg-emerald-100">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="card-body">
                             <div className="form-control">
@@ -58,6 +59,8 @@ const SignUp = () => {
                             </div>
                         </div>
                         <Link className="text-yellow-700 mx-3" to="/login">Already Have An accound <button className=" btn-link">Login</button></Link>
+                        <div className="divider">OR</div>
+                        <GoogleLoginButton></GoogleLoginButton>
                     </form>
                 </div>
             </div>

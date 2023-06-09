@@ -1,3 +1,5 @@
+import 'tailwindcss/tailwind.css';
+import 'daisyui/dist/full.css';
 
 import { Outlet } from 'react-router-dom'
 import './App.css'

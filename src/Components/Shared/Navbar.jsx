@@ -1,17 +1,37 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../Authorization/AuthProvider";
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+   
+    const handleLogOut = ()=>{
+        logOut()
+    }
 
-    const user = false
     return (
-        <div className="navbar bg-green-400 px-10">
+        <div className="navbar bg-white px-10 h-11">
             <div className="navbar-start">
                 <div className="dropdown">
-                    <label tabIndex={0} className="btn bg-red-400 lg:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                    <label
+                        tabIndex={0}
+                        className="btn bg-red-400 lg:hidden"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M4 6h16M4 12h8m-8 6h16"
+                            />
+                        </svg>
                     </label>
-                  
                 </div>
                 <a className="btn bg-red-400 normal-case text-xl">daisyUI</a>
             </div>
@@ -21,13 +41,19 @@ const Navbar = () => {
                 <Link className="hover:text-blue-900 hover:bg-white px-3 rounded">Class</Link>
                 <Link className="hover:text-blue-900 hover:bg-white px-3 rounded">Dashboard</Link>
             </div>
-            <div className="navbar-end avatar">
-        {
-            user ? <div className="rounded">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-        </div> : <Link to="/login"><button className="btn btn-outline btn-accent">Login</button></Link>
-        }
-                
+            <div className="navbar-end ">
+                {user ? (
+                    <div className="avatar flex gap-5">
+                    <button onClick={handleLogOut} className="btn btn-outline btn-accent">Log Out</button>
+                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                            <img src={user.photoURL} />
+                        </div>
+                    </div>
+                ) : (
+                    <Link to="/login">
+                        <button className="btn btn-outline btn-accent">Login</button>
+                    </Link>
+                )}
             </div>
         </div>
     );
