@@ -3,6 +3,7 @@ import { useContext } from 'react';// Replace with your actual auth context
 import { AuthContext } from './AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const GoogleLoginButton = () => {
     const { googleLogin } = useContext(AuthContext);
@@ -15,14 +16,18 @@ console.log(from)
     const handleSuccess = async () => {
         googleLogin()
         .then(res =>{
-            const user = res.user;
-            console.log(user)
+            const loggeduser = res.user;
+            const user = {name: loggeduser.displayName, email: loggeduser.email}
             Swal.fire({
                 icon: 'success',
                 title: 'Login Success',
                 showConfirmButton: false,
                 timer: 1500,
             });
+            axios.post('http://localhost:4214/user', user )
+                .then(res =>{
+                    console.log(res.data)
+                })
             navigate(from)
         })
         .catch(err =>console.log(err))

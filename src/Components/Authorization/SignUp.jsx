@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./../../App.css"
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axios from "axios";
 
 
 const SignUp = () => {
@@ -34,10 +35,15 @@ const SignUp = () => {
 
         signUp(data.email, data.password)
             .then(res => {
-                const user = res.user;
-                console.log(user);
+                const loggeduser = res.user;
+                const user = {name: data.name, email: loggeduser.email}
+                axios.post('http://localhost:4214/user', user )
+                .then(res =>{
+                    console.log(res.data)
+                })
             })
             .catch(err => console.log(err));
+
     };
 
     const togglePasswordVisibility = () => {
