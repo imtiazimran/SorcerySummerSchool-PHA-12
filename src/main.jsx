@@ -16,6 +16,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import Instructors from './Components/Instructor/Instructors.jsx';
 
 const queryClient = new QueryClient()
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>
+      },
+      {
+        path: '/instructors',
+        element: <Instructors></Instructors>
       }
     ]
   },

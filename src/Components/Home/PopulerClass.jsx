@@ -1,17 +1,9 @@
 
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import useClass from '../Hooks/useClass';
 import Title from '../Shared/Title';
 
 const PopulerClass = () => {
-    const { isLoading, isError, data: populerClass = [], error } = useQuery({
-        queryKey: ['populerClass'],
-        queryFn: async () => {
-            const res = await axios.get('http://localhost:4214/populerClass');
-            console.log(res);
-            return res.data;
-        },
-    });
+    const  [isLoading, isError, classes, error] = useClass()
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -20,6 +12,8 @@ const PopulerClass = () => {
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
+
+    const populerClass = classes.slice(0,6)
 
     return (
         <div>

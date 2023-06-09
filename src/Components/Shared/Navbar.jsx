@@ -36,10 +36,10 @@ const Navbar = () => {
                 <Link to="/" className="normal-case text-xl">SorcerySummerSchool</Link>
             </div>
             <div className="navbar-center text-blue-700 font-semibold text-xl hidden lg:flex gap-3">
-                <Link className="hover:text-blue-900 hover:bg-white md:px-3 rounded">Home</Link>
-                <Link className="hover:text-blue-900 hover:bg-white px-3 rounded">Instructors</Link>
-                <Link className="hover:text-blue-900 hover:bg-white px-3 rounded">Class</Link>
-                <Link className="hover:text-blue-900 hover:bg-white px-3 rounded">Dashboard</Link>
+                <Link to="/" className="hover:text-blue-900 hover:bg-white md:px-3 rounded">Home</Link>
+                <Link to="/instructors" className="hover:text-blue-900 hover:bg-white px-3 rounded">Instructors</Link>
+                <Link to="/class" className="hover:text-blue-900 hover:bg-white px-3 rounded">Class</Link>
+                <Link to="/dashboard" className="hover:text-blue-900 hover:bg-white px-3 rounded">Dashboard</Link>
             </div>
             <div className="navbar-end ">
                 {user ? (

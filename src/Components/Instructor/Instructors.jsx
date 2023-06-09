@@ -2,7 +2,7 @@
 import useInstructors from '../Hooks/useInstructors';
 import Title from '../Shared/Title';
 
-const PopulerInstructors = () => {
+const Instructors = () => {
    
     const [isLoading, isError, instructors, error] = useInstructors()
 
@@ -18,7 +18,7 @@ const PopulerInstructors = () => {
 
     return (
         <div>
-            <Title title={"popular instructors"} subtitle={"get the chance to learn from our popular instructors"}></Title>
+            <Title title={"all instructors"} subtitle={"meet with our honorable, experienced instructors "}></Title>
             <div className='bg-red-100 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center px-4 md:py-11 gap-3 '>
                 {PopulerInstructors.map((item) => (
 
@@ -43,4 +43,4 @@ const PopulerInstructors = () => {
     );
 };
 
-export default PopulerInstructors;
+export default Instructors;
