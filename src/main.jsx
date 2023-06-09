@@ -20,6 +20,9 @@ import {
 import Instructors from './Components/Instructor/Instructors.jsx';
 import Classes from './Components/Classes/Class.jsx';
 import Error404 from './Components/Shared/Error.jsx';
+import Dashboard from './Components/Dashboard/Dashboard.jsx';
+import SelectedClass from './Components/Dashboard/UserDashboard/SelectedClass.jsx';
+import EnrolledClass from './Components/Dashboard/UserDashboard/EnrolledClass.jsx';
 
 const queryClient = new QueryClient()
 
@@ -52,6 +55,20 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: "selectedClass",
+        element : <SelectedClass></SelectedClass>
+      },
+      {
+        path: "enrolledClass",
+        element: <EnrolledClass></EnrolledClass>
+      }
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -63,3 +80,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AuthProvider>
   </React.StrictMode>,
 )
+
+
+
+

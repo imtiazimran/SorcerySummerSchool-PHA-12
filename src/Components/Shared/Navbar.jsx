@@ -6,7 +6,6 @@ const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
 
     // TODO: make user role dynamic
-     user.role = "admin";
    
     const handleLogOut = ()=>{
         logOut()
@@ -42,7 +41,7 @@ const Navbar = () => {
                 <Link to="/" className="hover:text-blue-900 hover:bg-white md:px-3 rounded">Home</Link>
                 <Link to="/instructors" className="hover:text-blue-900 hover:bg-white px-3 rounded">Instructors</Link>
                 <Link to="/class" className="hover:text-blue-900 hover:bg-white px-3 rounded">Class</Link>
-                <Link to={user.role === "admin" ? "/admin-dashboard" : user.role === "instructor" ? "/instructor-dashboard" : "/user-dashboard"} className="hover:text-blue-900 hover:bg-white px-3 rounded">Dashboard</Link>
+                <Link to="dashboard" className="hover:text-blue-900 hover:bg-white px-3 rounded">Dashboard</Link>
 
             </div>
             <div className="navbar-end ">
