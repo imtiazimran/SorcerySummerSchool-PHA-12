@@ -7,7 +7,6 @@ const useClass = () => {
         queryKey: ['populerClass'],
         queryFn: async () => {
             const res = await axios.get('http://localhost:4214/populerClass');
-            console.log(res);
             return res.data;
         },
     });

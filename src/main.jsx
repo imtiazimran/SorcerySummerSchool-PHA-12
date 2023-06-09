@@ -19,6 +19,7 @@ import {
 } from '@tanstack/react-query'
 import Instructors from './Components/Instructor/Instructors.jsx';
 import Classes from './Components/Classes/Class.jsx';
+import Error404 from './Components/Shared/Error.jsx';
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement: <Error404></Error404>,
     children: [
       {
         path: "/",
