@@ -33,7 +33,7 @@ const Navbar = () => {
                         </svg>
                     </label>
                 </div>
-                <a className="btn bg-red-400 normal-case text-xl">daisyUI</a>
+                <Link to="/" className="normal-case text-xl">daisyUI</Link>
             </div>
             <div className="navbar-center text-blue-700 font-semibold text-xl hidden lg:flex gap-3">
                 <Link className="hover:text-blue-900 hover:bg-white md:px-3 rounded">Home</Link>
