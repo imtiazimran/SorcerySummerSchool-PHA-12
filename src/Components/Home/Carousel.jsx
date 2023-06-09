@@ -6,7 +6,7 @@ const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 const Slider = () => (
     // TODO: RESIZE THE CAROUSEL
-  <div className='w-4/5 mx-auto h-3/4'>
+  <div className='w-4/5 mx-auto h-3/4 py-3 md:mb-14'>
   <AutoplaySlider
     play={true}
     cancelOnInteraction={false} // should stop playing on user interaction
