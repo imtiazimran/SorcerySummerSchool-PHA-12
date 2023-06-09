@@ -11,9 +11,9 @@ const Login = () => {
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center w-1/2 lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
-                    <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                    <img src="https://i.ibb.co/BZ5pHz2/Authentication-rafiki.png" alt=""/>
                 </div>
-                <div className="card flex-shrink-0  max-w-sm w-1/2 shadow-2xl py-7">
+                <div className="card flex-shrink-0  max-w-sm w-1/2 shadow-2xl pb-4">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="card-body">
                             <div className="form-control">
