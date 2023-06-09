@@ -7,7 +7,7 @@ const Instructors = () => {
     const [isLoading, isError, instructors, error] = useInstructors()
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
 
     if (isError) {
@@ -35,6 +35,7 @@ const Instructors = () => {
                             <h2 className="card-title text-2xl">{item.name}!</h2>
                             <p className='text-stone-700'>Specialty:  <span className='text-xl text-slate-700 font-semibold'>{item.specialty}</span></p>
                             <p className='text-stone-700'>Number Of Student: <span className='text-xl text-slate-700 font-semibold'>{item.numberOfStudents}</span> </p>
+                            <p className='text-stone-700'>Email: <span className=' text-slate-700 '>{item.email}</span> </p>
                         </div>
                     </div>
                 ))}

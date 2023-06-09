@@ -12,11 +12,13 @@ import SignUp from './Components/Authorization/SignUp.jsx';
 import Login from './Components/Authorization/Login.jsx';
 import AuthProvider from './Components/Authorization/AuthProvider.jsx';
 
+
 import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 import Instructors from './Components/Instructor/Instructors.jsx';
+import Classes from './Components/Classes/Class.jsx';
 
 const queryClient = new QueryClient()
 
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: '/instructors',
         element: <Instructors></Instructors>
+      },
+      {
+        path: "class",
+        element: <Classes></Classes>
       }
     ]
   },

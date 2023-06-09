@@ -6,14 +6,14 @@ const PopulerClass = () => {
     const  [isLoading, isError, classes, error] = useClass()
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className='w-full h-screen flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
 
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
 
-    const populerClass = classes.slice(0,6)
+    const populerClass = classes.slice(0,6).sort((a, b) => a.name.localeCompare(b.name));
 
     return (
         <div>

@@ -7,7 +7,7 @@ const PopulerInstructors = () => {
     const [isLoading, isError, instructors, error] = useInstructors()
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
 
     if (isError) {
