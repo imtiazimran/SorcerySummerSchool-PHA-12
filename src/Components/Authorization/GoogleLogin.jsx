@@ -1,11 +1,14 @@
 
 import { useContext } from 'react';// Replace with your actual auth context
 import { AuthContext } from './AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const GoogleLoginButton = () => {
     const { googleLogin } = useContext(AuthContext);
-
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/"
+console.log(from)
     const navigate = useNavigate()
 
     // Callback function called on successful login
@@ -14,7 +17,13 @@ const GoogleLoginButton = () => {
         .then(res =>{
             const user = res.user;
             console.log(user)
-            navigate('/')
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Success',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            navigate(from)
         })
         .catch(err =>console.log(err))
     };

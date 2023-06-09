@@ -1,16 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import GoogleLoginButton from "./GoogleLogin";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "./AuthProvider";
+import Swal from "sweetalert2";
 
 
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const {login} = useContext(AuthContext)
     const [passwordVisible, setPasswordVisible] = useState(false);
-
+    const navigate = useNavigate()
+    
+    
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/"
+    
+    const onSubmit = data => {
+        login(data.email, data.password)
+        .then(()=>{
+            navigate(from)
+            Swal.fire({
+                icon: 'success',
+                title: 'Item added to cart!',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        })
+    };
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
