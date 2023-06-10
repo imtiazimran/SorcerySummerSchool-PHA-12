@@ -6,7 +6,6 @@ const useInstructors = () => {
         queryKey: ['Instructors'],
         queryFn: async () => {
             const res = await axios.get('http://localhost:4214/instructors');
-            console.log(res);
             return res.data;
         },
     });

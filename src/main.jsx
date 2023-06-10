@@ -23,6 +23,9 @@ import Error404 from './Components/Shared/Error.jsx';
 import Dashboard from './Components/Dashboard/Dashboard.jsx';
 import SelectedClass from './Components/Dashboard/UserDashboard/SelectedClass.jsx';
 import EnrolledClass from './Components/Dashboard/UserDashboard/EnrolledClass.jsx';
+import PrivetRoute from './Components/Authorization/PrivetRoute.jsx';
+import DashboardOverview from './Components/Dashboard/DashboardOverview.jsx';
+import AddClass from './Components/Dashboard/InstructorDashboard/AddClass.jsx';
 
 const queryClient = new QueryClient()
 
@@ -56,9 +59,13 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    path: "/dashboard",
+    element: <PrivetRoute><Dashboard></Dashboard></PrivetRoute>,
     children: [
+      {
+        path: "/dashboard",
+        element: <DashboardOverview></DashboardOverview>
+      },
       {
         path: "selectedClass",
         element : <SelectedClass></SelectedClass>
@@ -66,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "enrolledClass",
         element: <EnrolledClass></EnrolledClass>
+      },
+      {
+        path: "addclass",
+        element: <AddClass></AddClass>
       }
     ]
   }
