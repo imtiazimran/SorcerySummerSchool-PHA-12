@@ -1,9 +1,10 @@
 
 import useInstructors from '../Hooks/useInstructors';
+import { useTitle } from '../Hooks/useTitle';
 import Title from '../Shared/Title';
 
 const Instructors = () => {
-   
+    useTitle("SSS |  INSTRUCTORS")
     const [isLoading, isError, instructors, error] = useInstructors()
 
     if (isLoading) {

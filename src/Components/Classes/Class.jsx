@@ -6,8 +6,10 @@ import Swal from 'sweetalert2';
 import { useContext } from 'react';
 import { AuthContext } from '../Authorization/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTitle } from '../Hooks/useTitle';
 
 const Classes = () => {
+    useTitle("SSS |  CLASSES")
     const [isLoading, isError, classes, error, refetch] = useClass()
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -66,7 +68,8 @@ console.log(item)
         <div>
             <Title title={"popular classes"} subtitle={"so much to learn but we have the best classes among all, see our popular classes"}></Title>
             <div className='bg-gray-100 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center md:py-11 gap-3'>
-                {classes.map((item) => (
+                { 
+                    classes.filter((item)=> item.status !== "pending").map((item) => (
 
                     <div key={item._id} className={`card w-96 p-4 shadow-xl ${item.availableSeats === 0 ? 'border-red-500 border shadow-red-500' : ' shadow-green-500 '
                         }`}>

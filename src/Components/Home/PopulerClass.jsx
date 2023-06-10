@@ -3,6 +3,7 @@ import useClass from '../Hooks/useClass';
 import Title from '../Shared/Title';
 
 const PopulerClass = () => {
+    
     const  [isLoading, isError, classes, error] = useClass()
 
     if (isLoading) {
@@ -31,7 +32,7 @@ const PopulerClass = () => {
                             </div>
                         </figure>
                         <div className="card-body">
-                            <h2 className="card-title">{item.name}!</h2>
+                            <h2 className="card-title">{item.tutorialTitle}!</h2>
                             <p>{item.tutorialDescription}</p>
                             <div className="card-actions justify-end">
                                 <button className="btn btn-primary">Add To Cart</button>

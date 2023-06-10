@@ -4,9 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { useTitle } from "../../Hooks/useTitle";
 
 
 const SelectedClass = () => {
+    useTitle("SSS | SELECTED CLASSES")
     const { user } = useContext(AuthContext)
 
     const { isLoading, isError, data: cart = [], error, refetch } = useQuery({
