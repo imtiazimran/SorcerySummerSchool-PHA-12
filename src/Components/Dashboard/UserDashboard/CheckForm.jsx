@@ -1,32 +1,44 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-undef */
+
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Button } from "flowbite-react";
 import { useState } from "react";
-import useAxiosSecured from "../../Hooks/useAxiosSecure";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../Authorization/AuthProvider";
+import { AuthContext } from "../../Authorization/AuthProvider"
+import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const CheckOutForm = ({ cart, price }) => {
     const [error, setError] = useState('')
     const stripe = useStripe()
     const elements = useElements()
-    const {user} = useContext(AuthContext)
-    const [axiosSecure] = useAxiosSecured()
+    const { user, loading } = useContext(AuthContext)
     const [clientSecret, setClientSecret] = useState()
     const [processing, setProcessing] = useState(false)
     const [transcationId, setTranscationId] = useState('')
+    const accessToken = localStorage.getItem("access-token");
 
     useEffect(() => {
-       if(price > 0){
-        axiosSecure.post('/create-payment-intent', { price })
-        .then(res => {
-            setClientSecret(res.data.clientSecret)
-        })
-       }
-    }, [price, axiosSecure])
+        if (price > 0) {
+            axios  
+            .post("http://localhost:4214/create-payment-intent", { price }, {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                }
+              })
+              .then((res) => {
+                setClientSecret(res.data.clientSecret);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+    }, [])
+
+    if (loading) {
+        return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -51,24 +63,24 @@ const CheckOutForm = ({ cart, price }) => {
             console.log(paymentMethod)
         }
 
-        const {paymentIntent, error: confirmError} = await stripe.confirmCardPayment(
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
             {
-              payment_method: {
-                card: card,
-                billing_details: {
-                  name: user?.displayName || "Anonymous user",
-                  email: user?.email || "email not found"
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: user?.displayName || "Anonymous user",
+                        email: user?.email || "email not found"
+                    },
                 },
-              },
             },
-          );
+        );
 
-          if(confirmError){
+        if (confirmError) {
             console.log(confirmError)
-          }
-          setProcessing(false)
-          if(paymentIntent.status === "succeeded"){
+        }
+        setProcessing(false)
+        if (paymentIntent.status === "succeeded") {
             const transcationId = paymentIntent.id
             setTranscationId(transcationId)
             const payment = {
@@ -78,18 +90,26 @@ const CheckOutForm = ({ cart, price }) => {
                 data: new Date(),
                 price,
                 cartItems: cart.map(item => item._id),
-                menuItems: cart.map(item => item.menuItemId),
-                orderStatus: "service pending",
                 itemNames: cart.map(item => item.name)
             }
-            axiosSecure.post('/payment', payment)
-            .then(res =>{
-                console.log(res)
-                if(res.data.result.insertedId){
-                    // display confirmation
-                }
+            axios.post('http://localhost:4214/payment', payment, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  }
             })
-          }
+                .then(res => {
+                    console.log(res)
+                    if (res.data.result.insertedId) {
+                        // display confirmation
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Payment Success!',
+                            showConfirmButton: false,
+                            timer: 1000,
+                        })
+                    }
+                })
+        }
     }
 
     return (
@@ -111,9 +131,9 @@ const CheckOutForm = ({ cart, price }) => {
                         },
                     }}
                 />
-                <Button className="mt-4" type="submit" disabled={!stripe || !clientSecret || processing}>
+                <button className="mt-4 btn btn-secondary btn-sm" type="submit" disabled={!stripe || !clientSecret || processing}>
                     Pay
-                </Button>
+                </button>
             </form>
             <p className="text-rose-700 p-4">{error.message}</p>
             {transcationId &&

@@ -27,6 +27,7 @@ import PrivetRoute from './Components/Authorization/PrivetRoute.jsx';
 import DashboardOverview from './Components/Dashboard/DashboardOverview.jsx';
 import AddClass from './Components/Dashboard/InstructorDashboard/AddClass.jsx';
 import MyClass from './Components/Dashboard/InstructorDashboard/MyClass.jsx';
+import PayClass from './Components/Dashboard/UserDashboard/PayClass.jsx';
 
 const queryClient = new QueryClient()
 
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "enrolledClass",
         element: <EnrolledClass></EnrolledClass>
+      },
+      {
+        path: "payClass",
+        element: <PayClass></PayClass>
       },
       // instructors route
       {

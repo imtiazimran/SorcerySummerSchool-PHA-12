@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 
-const user = {role: "instructor"}
+const user = true
 
 const Dashboard = () => {
     // TODO: make user dynamically admin or instructor or normall use

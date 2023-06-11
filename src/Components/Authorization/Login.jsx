@@ -24,7 +24,7 @@ const Login = () => {
             navigate(from)
             Swal.fire({
                 icon: 'success',
-                title: 'Item added to cart!',
+                title: 'Login success!',
                 showConfirmButton: false,
                 timer: 1500,
             });

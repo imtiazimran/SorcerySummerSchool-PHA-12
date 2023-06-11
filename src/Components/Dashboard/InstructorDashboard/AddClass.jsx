@@ -35,7 +35,7 @@ const AddClass = () => {
             price: data.price,
             image: imgURL,
             status: "pending",
-            currentStudent: 0
+            enrolled: 0
           }
           axios
             .post('http://localhost:4214/class', newClass)

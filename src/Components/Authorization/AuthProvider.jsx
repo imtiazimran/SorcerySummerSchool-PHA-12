@@ -33,6 +33,7 @@ const AuthProvider = ({children}) => {
         const unMount = onAuthStateChanged(auth, (currentUser) =>{
             setLoading(false)
             if(currentUser){
+                setUser(currentUser)
 
                 axios.post("http://localhost:4214/jwt", {email: currentUser.email})
                 .then(data => {
@@ -42,7 +43,6 @@ const AuthProvider = ({children}) => {
             else{
                 localStorage.removeItem("access-token")
             }
-            setUser(currentUser)
         })
         return () =>{
             return unMount()
