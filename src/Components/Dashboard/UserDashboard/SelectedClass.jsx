@@ -1,23 +1,16 @@
-import { useContext } from "react";
-import { AuthContext } from "../../Authorization/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
+
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useTitle } from "../../Hooks/useTitle";
+import useCart from "../../Hooks/UseCart";
 
 
 const SelectedClass = () => {
     useTitle("SSS | SELECTED CLASSES")
-    const { user } = useContext(AuthContext)
 
-    const { isLoading, isError, data: cart = [], error, refetch } = useQuery({
-        queryKey: ["cart"],
-        queryFn: async () => {
-            const res = await axios.get(`http://localhost:4214/cart?email=${user.email}`)
-            return res.data
-        }
-    })
+    const [ isLoading, isError,  cart , error, refetch ] = useCart()
+
 
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;

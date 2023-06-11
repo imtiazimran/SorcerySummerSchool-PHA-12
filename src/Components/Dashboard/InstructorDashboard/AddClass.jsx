@@ -34,7 +34,8 @@ const AddClass = () => {
             availableSeats: parseFloat(data.availableSeat),
             price: data.price,
             image: imgURL,
-            status: "pending"
+            status: "pending",
+            currentStudent: 0
           }
           axios
             .post('http://localhost:4214/class', newClass)
