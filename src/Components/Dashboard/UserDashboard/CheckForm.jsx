@@ -34,7 +34,7 @@ const CheckOutForm = ({ cart, price }) => {
                 console.error(error);
               });
           }
-    }, [])
+    }, [price, accessToken])
 
     if (loading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
@@ -80,7 +80,7 @@ const CheckOutForm = ({ cart, price }) => {
             console.log(confirmError)
         }
         setProcessing(false)
-        if (paymentIntent.status === "succeeded") {
+        if (paymentIntent.status) {
             const transcationId = paymentIntent.id
             setTranscationId(transcationId)
             const payment = {
@@ -89,7 +89,7 @@ const CheckOutForm = ({ cart, price }) => {
                 quantity: cart.length,
                 data: new Date(),
                 price,
-                cartItems: cart.map(item => item._id),
+                cartItems: cart.map(item => item.classId),
                 itemNames: cart.map(item => item.name)
             }
             axios.post('http://localhost:4214/payment', payment, {
@@ -101,6 +101,7 @@ const CheckOutForm = ({ cart, price }) => {
                     console.log(res)
                     if (res.data.result.insertedId) {
                         // display confirmation
+                        
                         Swal.fire({
                             icon: 'success',
                             title: 'Payment Success!',
@@ -131,7 +132,7 @@ const CheckOutForm = ({ cart, price }) => {
                         },
                     }}
                 />
-                <button className="mt-4 btn btn-secondary btn-sm" type="submit" disabled={!stripe || !clientSecret || processing}>
+                <button className="mt-4 btn btn-secondary btn-sm" type="submit" disabled={!stripe || !clientSecret || processing || cart.length === 0}>
                     Pay
                 </button>
             </form>
