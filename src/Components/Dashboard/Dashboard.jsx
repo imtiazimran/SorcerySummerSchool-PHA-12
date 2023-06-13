@@ -1,10 +1,22 @@
 import { Link, Outlet } from "react-router-dom";
 import Navbar from "../../Components/Shared/Navbar"
+import useAdmin from "../Hooks/useAdmin";
 
-const user = {role: "admin"}
+
 
 const Dashboard = () => {
     // TODO: make user dynamically admin or instructor or normall use
+    const [isLoading, isError, users, error, refetch] = useAdmin();
+    console.log(users)
+    // users.map(user => console.log(user))
+
+    if (isLoading) {
+        return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
+    }
+
+    if (isError) {
+        return <div>Error: {error.message}</div>;
+    }
     return (
         <div>
         <Navbar></Navbar>
@@ -24,14 +36,14 @@ const Dashboard = () => {
                         <ul className="menu p-4 w-80 h-full bg-blue-600 text-white text-2xl">
                             {/* Sidebar content here */}
                             {
-                                user.role === "admin" &&
+                                users.role === "admin" &&
                                 <div>
                                     <li><Link to="manageClass">Manage Classes</Link></li>
                                     <li><Link to="manageUsers">Manage Users</Link></li>
                                 </div>
                             }
                             {
-                                user.role === "instructor" &&
+                                users.role === "instructor" &&
                                 <div>
                                     <li><Link to="addClass">Add Class</Link></li>
                                     <li><Link to="myClass">My Classes</Link></li>
@@ -39,7 +51,7 @@ const Dashboard = () => {
                             }
 
                             {
-                                user.role ||
+                                users.role ||
                                 <div>
                                     <li><Link to="selectedClass">My Selected Items</Link></li>
                                     <li><Link to="enrolledClass">My Enrolled Class</Link></li>
