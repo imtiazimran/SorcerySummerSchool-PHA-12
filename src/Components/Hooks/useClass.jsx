@@ -10,7 +10,7 @@ const useClass = () => {
             return res.data;
         },
     });
-    return [isLoading, isError, classes, error, refetch] 
+    return {isLoading, isError, classes, error, refetch} 
 };
 
 export default useClass;

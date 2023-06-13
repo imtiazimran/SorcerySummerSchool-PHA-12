@@ -17,12 +17,12 @@ console.log(from)
         googleLogin()
         .then(res =>{
             const loggeduser = res.user;
-            const user = {name: loggeduser.displayName, email: loggeduser.email, img: loggeduser.imgURL}
+            const user = {name: loggeduser.displayName, email: loggeduser.email, image: loggeduser.imgURL}
             Swal.fire({
                 icon: 'success',
                 title: 'Login Success',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 1000,
             });
             axios.post('http://localhost:4214/user', user )
                 .then(res =>{

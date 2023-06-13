@@ -11,7 +11,6 @@ const ManageUsers = () => {
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axios.get('http://localhost:4214/user')
-            console.log(res)
             return res.data
         }
     })
@@ -72,9 +71,9 @@ const ManageUsers = () => {
                     </tr>
                 </thead>
                 {/* row 1 */}
-                
+
                 <tbody>
-            {
+                    {
 
                         users.map((item, i) =>
                             <tr key={item._id}>
@@ -115,25 +114,25 @@ const ManageUsers = () => {
 
                         )
                     }
-           
-                    
+
+
                 </tbody>
                 {/* foot */}
                 {
-                users.length > 10 &&
-                <tfoot>
-                    <tr className="bg-red-600 text-white text-xl">
-                        <th></th>
-                        <th>User Image</th>
-                        <th>User Info</th>
-                        <th>Price</th>
-                        <th>Current Student</th>
-                        <th>Status</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            
+                    users.length > 10 &&
+                    <tfoot>
+                        <tr className="bg-red-600 text-white text-xl">
+                            <th></th>
+                            <th>User Image</th>
+                            <th>User Info</th>
+                            <th>Price</th>
+                            <th>Current Student</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+
                 }
 
             </table>

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleLoginButton from "./GoogleLogin";
 import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
@@ -8,42 +8,50 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./../../App.css"
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const SignUp = () => {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
-    
 
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signUp } = useContext(AuthContext)
     const onSubmit = data => {
-            if (data.password.length < 6) {
-                toast.error('Password must be at least 6 characters long');
-                return;
-            }
-        
-            if (!/[A-Z]/.test(data.password)) {
-                toast.error('Password must contain at least one capital letter');
-                return;
-            }
-        
-            if (!/[!@#$%^&*]/.test(data.password)) {
-                toast.error('Password must contain at least one special character');
-                return;
-            }
-        
-       
-        
+        if (data.password.length < 6) {
+            toast.error('Password must be at least 6 characters long');
+            return;
+        }
+
+        if (!/[A-Z]/.test(data.password)) {
+            toast.error('Password must contain at least one capital letter');
+            return;
+        }
+
+        if (!/[!@#$%^&*]/.test(data.password)) {
+            toast.error('Password must contain at least one special character');
+            return;
+        }
+
+
+
 
         signUp(data.email, data.password)
             .then(res => {
                 const loggeduser = res.user;
-                const user = {name: data.name, email: loggeduser.email}
-                axios.post('http://localhost:4214/user', user )
-                .then(res =>{
-                    console.log(res.data)
-                })
+                const user = { name: data.name, email: loggeduser.email, image: data.photo }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                axios.post('http://localhost:4214/user', user)
+                .then(res => {
+                        navigate('/')
+                        console.log(res.data)
+                    })
             })
             .catch(err => console.log(err));
 

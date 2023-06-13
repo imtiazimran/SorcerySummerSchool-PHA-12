@@ -10,7 +10,7 @@ import { useTitle } from '../Hooks/useTitle';
 
 const Classes = () => {
     useTitle("SSS |  CLASSES")
-    const [isLoading, isError, classes, error, refetch] = useClass()
+    const {isLoading, isError, classes, error, refetch} = useClass()
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
     const from = useLocation()
