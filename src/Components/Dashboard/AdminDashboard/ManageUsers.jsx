@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../Authorization/AuthProvider";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
-
-    const { isLoading, isError, data: users = [], error } = useQuery({
+    const { user } = useContext(AuthContext)
+    const { isLoading, isError, data: users = [], error, refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axios.get('http://localhost:4214/user')
@@ -18,8 +21,37 @@ const ManageUsers = () => {
         return <div>Error: {error.message}</div>;
     }
 
-    const makingInstructor = (id)=>{
-        console.log(id)
+    const makingInstructor = (item) => {
+        axios.patch(`http://localhost:4214/users/admin/${item._id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: `${item.name} Is A Instructor From Now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+    }
+
+    const makingAdmin = (item) => {
+        console.log(item)
+        axios.patch(`http://localhost:4214/users/admin/${item._id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: `${item.name} Is Admin From Now`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
     }
     return (
         <div className="overflow-x-auto">
@@ -59,14 +91,21 @@ const ManageUsers = () => {
                                     <br />
                                     <span className="badge badge-ghost badge-sm">Email: {item.email}</span>
                                 </td>
-                                <td>Student</td>
+                                <td>
+                                    <td>
+                                        {user && item.role === "admin" && "Admin"}
+                                        {user && item.role === "instructor" && "Instructor"}
+                                        {user && !item.role && "Student"}
+                                    </td>
+
+                                </td>
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button onClick={()=>makingInstructor(item._id)} className="btn btn-success btn-sm text-center">Make Instructor</button>
+                                    <button onClick={() => makingInstructor(item)} className="btn btn-success btn-sm text-center">Make Instructor</button>
                                 </th>
                                 <th>
-                                    <button className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
+                                    <button onClick={() => makingAdmin(item)} className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
                                 </th>
                             </tr>
 
