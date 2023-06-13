@@ -1,16 +1,42 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Authorization/AuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
 
     // TODO: make user role dynamic
    
-    const handleLogOut = ()=>{
-        logOut()
-        .then(res => console.log(res, logOut()))
+
+const handleLogOut = async () => {
+  try {
+    // Display a confirmation alert before logging out
+    const result = await Swal.fire({
+      title: 'Logout',
+      text: 'Are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Logout',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      // User confirmed logout, perform the logout action
+      await logOut();
+      console.log('User logged out');
+      // You can redirect to the login page or perform any other necessary actions here
+    } else {
+      // User clicked cancel or closed the alert
+      console.log('Logout canceled');
     }
+  } catch (error) {
+    console.log('Error logging out:', error);
+  }
+};
+
+      
 
     return (
         <div className="navbar bg-white px-10 h-11">

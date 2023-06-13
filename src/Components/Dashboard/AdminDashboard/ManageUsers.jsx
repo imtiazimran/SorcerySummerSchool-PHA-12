@@ -11,6 +11,7 @@ const ManageUsers = () => {
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axios.get('http://localhost:4214/user')
+            console.log(res)
             return res.data
         }
     })
@@ -23,7 +24,7 @@ const ManageUsers = () => {
     }
 
     const makingInstructor = (item) => {
-        axios.patch(`http://localhost:4214/users/admin/${item._id}`)
+        axios.patch(`http://localhost:4214/users/instructor/${item._id}`)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     refetch()
@@ -71,8 +72,10 @@ const ManageUsers = () => {
                     </tr>
                 </thead>
                 {/* row 1 */}
+                
                 <tbody>
-                    {
+            {
+
                         users.map((item, i) =>
                             <tr key={item._id}>
                                 <th>
@@ -112,22 +115,25 @@ const ManageUsers = () => {
 
                         )
                     }
+           
+                    
                 </tbody>
                 {/* foot */}
                 {
-                    users.length > 10 &&
-                    <tfoot>
-                        <tr className="bg-red-600 text-white text-xl">
-                            <th></th>
-                            <th>User Image</th>
-                            <th>User Info</th>
-                            <th>Price</th>
-                            <th>Current Student</th>
-                            <th>Status</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+                users.length > 10 &&
+                <tfoot>
+                    <tr className="bg-red-600 text-white text-xl">
+                        <th></th>
+                        <th>User Image</th>
+                        <th>User Info</th>
+                        <th>Price</th>
+                        <th>Current Student</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            
                 }
 
             </table>

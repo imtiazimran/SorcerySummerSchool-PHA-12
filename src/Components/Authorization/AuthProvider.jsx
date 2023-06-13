@@ -50,7 +50,9 @@ const AuthProvider = ({children}) => {
 
     },[])
 
-    const logOut = () => signOut(auth)
+    const logOut = () => {
+        return signOut(auth)
+    }
     const authInfo = {
         signUp,
         login,

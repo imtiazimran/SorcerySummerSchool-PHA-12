@@ -6,7 +6,7 @@ import { AuthContext } from "../Authorization/AuthProvider";
 const useUserRole = () => {
   const { user } = useContext(AuthContext);
   const { isLoading, isError, data: userRole } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["role"],
     queryFn: async () => {
       const res = await axios.get(`http://localhost:4214/users/admin/${user?.email}`);
       return res.data;

@@ -18,20 +18,23 @@ const SignUp = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signUp } = useContext(AuthContext)
     const onSubmit = data => {
-        if (data.password.length < 6) {
-            toast.error('Password must be at least 6 characters long');
-            return;
-        }
-
-        if (!/[A-Z]/.test(data.password)) {
-            toast.error('Password must contain at least one capital letter');
-            return;
-        }
-
-        if (!/[!@#$%^&*]/.test(data.password)) {
-            toast.error('Password must contain at least one special character');
-            return;
-        }
+            if (data.password.length < 6) {
+                toast.error('Password must be at least 6 characters long');
+                return;
+            }
+        
+            if (!/[A-Z]/.test(data.password)) {
+                toast.error('Password must contain at least one capital letter');
+                return;
+            }
+        
+            if (!/[!@#$%^&*]/.test(data.password)) {
+                toast.error('Password must contain at least one special character');
+                return;
+            }
+        
+       
+        
 
         signUp(data.email, data.password)
             .then(res => {
