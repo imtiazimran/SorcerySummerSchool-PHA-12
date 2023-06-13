@@ -10,7 +10,6 @@ const useClass = () => {
             return res.data;
         },
     });
-    console.log(classes)
     return [isLoading, isError, classes, error, refetch] 
 };
 

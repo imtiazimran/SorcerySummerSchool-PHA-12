@@ -1,11 +1,13 @@
 import { Link, Outlet } from "react-router-dom";
+import Navbar from "../../Components/Shared/Navbar"
 
-const user = true
+const user = {role: "admin"}
 
 const Dashboard = () => {
     // TODO: make user dynamically admin or instructor or normall use
     return (
         <div>
+        <Navbar></Navbar>
             <div >
                 <div className="drawer lg:drawer-open">
                     <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -24,8 +26,8 @@ const Dashboard = () => {
                             {
                                 user.role === "admin" &&
                                 <div>
-                                    <li><a>Admin Item</a></li>
-                                    <li><a>View All User</a></li>
+                                    <li><Link to="manageClass">Manage Classes</Link></li>
+                                    <li><Link to="manageUsers">Manage Users</Link></li>
                                 </div>
                             }
                             {

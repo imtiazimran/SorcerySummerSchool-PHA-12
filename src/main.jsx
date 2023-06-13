@@ -28,6 +28,8 @@ import DashboardOverview from './Components/Dashboard/DashboardOverview.jsx';
 import AddClass from './Components/Dashboard/InstructorDashboard/AddClass.jsx';
 import MyClass from './Components/Dashboard/InstructorDashboard/MyClass.jsx';
 import PayClass from './Components/Dashboard/UserDashboard/PayClass.jsx';
+import ManageUsers from './Components/Dashboard/AdminDashboard/ManageUsers.jsx';
+import ManageClass from './Components/Dashboard/AdminDashboard/ManageClass.jsx';
 
 const queryClient = new QueryClient()
 
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
       // user Routes
       {
         path: "selectedClass",
-        element : <SelectedClass></SelectedClass>
+        element: <SelectedClass></SelectedClass>
       },
       {
         path: "enrolledClass",
@@ -89,6 +91,15 @@ const router = createBrowserRouter([
       {
         path: "myClass",
         element: <MyClass></MyClass>
+      },
+      // admin routes
+      {
+        path: "manageUsers",
+        element: <ManageUsers></ManageUsers>
+      },
+      {
+        path: "manageClass",
+        element: <ManageClass></ManageClass>
       }
     ]
   }

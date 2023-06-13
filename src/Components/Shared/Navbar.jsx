@@ -9,6 +9,7 @@ const Navbar = () => {
    
     const handleLogOut = ()=>{
         logOut()
+        .then(res => console.log(res, logOut()))
     }
 
     return (

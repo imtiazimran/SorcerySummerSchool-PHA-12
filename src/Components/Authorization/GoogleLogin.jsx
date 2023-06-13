@@ -17,7 +17,7 @@ console.log(from)
         googleLogin()
         .then(res =>{
             const loggeduser = res.user;
-            const user = {name: loggeduser.displayName, email: loggeduser.email}
+            const user = {name: loggeduser.displayName, email: loggeduser.email, img: loggeduser.imgURL}
             Swal.fire({
                 icon: 'success',
                 title: 'Login Success',

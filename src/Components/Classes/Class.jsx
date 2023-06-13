@@ -87,6 +87,7 @@ console.log(item)
                             <p>Details: {item.tutorialDescription}</p>
                             <p>Instructor: <span className='text-xl'>{item.instructorName}</span></p>
                             <p>Available Seats: <span className='text-xl'>{item.availableSeats}</span></p>
+                            <p>Total Enrolled: <span className='text-xl'>{item.enrolled}</span></p>
                             <p>Price: <span className='text-xl text-orange-500'>${item.price}</span></p>
                             <div className="card-actions justify-end">
                             {/**TODO: MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
