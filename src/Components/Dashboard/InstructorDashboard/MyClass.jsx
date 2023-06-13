@@ -6,12 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useRef } from "react";
 
 const imgHostingApi = import.meta.env.VITE_updateImg_api
 const MyClass = () => {
     useTitle("SSS | SELECTED CLASSES")
     const { user } = useContext(AuthContext)
     const [isDisabled, setIsDispabled] = useState(false)
+    
+    const formRef = useRef(null);
 
     const imgHostingLink = `https://api.imgbb.com/1/upload?key=${imgHostingApi}`
 
@@ -44,7 +47,7 @@ const MyClass = () => {
         const seats = form.availableSeats.value
         const details = form.details.value
         const classImg = form.ClassImg.files[0];
-console.log("fanction is hitting")
+        console.log("fanction is hitting")
         const formData = new FormData()
         formData.append("image", classImg)
         fetch(imgHostingLink, {
@@ -66,9 +69,9 @@ console.log("fanction is hitting")
                         status: "pending",
                     }
                     axios.patch(`http://localhost:4214/update-class/${classToUpdate._id}`, updatedValue)
-                        .then(res =>{
+                        .then(res => {
                             setIsDispabled(false)
-                            if(res.data.modifiedCount>0){
+                            if (res.data.modifiedCount > 0) {
                                 // TODO: form reset korte hobe
                                 window.my_modal_5.close()
                                 refetch()
@@ -78,8 +81,10 @@ console.log("fanction is hitting")
                                     title: 'Your Class Is Updated',
                                     showConfirmButton: false,
                                     timer: 1500
-                                  })
+                                })
                             }
+                            formRef.current.reset();
+
                         })
                 }
             })
@@ -93,6 +98,9 @@ console.log("fanction is hitting")
         window.my_modal_5.showModal()
     }
 
+    const showFeedback = (item) =>{
+        console.log(item.feedback)
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -139,7 +147,7 @@ console.log("fanction is hitting")
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button className="btn btn-success btn-sm text-center">Feedback</button>
+                                    <button onClick={()=>showFeedback(item)} className="btn btn-success btn-sm text-center">Feedback</button>
                                 </th>
                                 <th>
                                     <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleUpdate(item._id)}>Updata Class</button>
@@ -170,7 +178,7 @@ console.log("fanction is hitting")
 
 
             <dialog method="dialog" id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                <form onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
+                <form ref={formRef} onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
                     <div className='md:flex gap-4'>
                         <div className="mb-4 md:w-1/2">
                             <label className="block mb-2 font-bold text-gray-700" htmlFor="className">
@@ -262,7 +270,7 @@ console.log("fanction is hitting")
                     <br />
                     <button disabled={isDisabled} className='btn btn-primary text-white w-full' type="submit">{
                         isDisabled ? <span className="loading loading-infinity loading-lg"></span>
-                        : "Submit Update"
+                            : "Submit Update"
                     }</button>
 
                     <div className="modal-action">

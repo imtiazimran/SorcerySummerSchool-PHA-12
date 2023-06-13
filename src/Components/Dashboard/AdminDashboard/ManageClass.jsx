@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useTitle } from "../../Hooks/useTitle";
 import { AuthContext } from "../../Authorization/AuthProvider";
 import axios from "axios";
@@ -7,102 +7,89 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import useClass from "../../Hooks/useClass";
 
-const imgHostingApi = import.meta.env.VITE_updateImg_api
 const ManageClass = () => {
     useTitle("SSS | MANAGE CLASSES")
-    const { user } = useContext(AuthContext)
+
+    const formRef = useRef(null);
     const [isDisabled, setIsDispabled] = useState(false)
 
-    const imgHostingLink = `https://api.imgbb.com/1/upload?key=${imgHostingApi}`
+    const [feedbackClass, setFeedbackClass] = useState([])
 
-    const [classToUpdate, setClassToUpdate] = useState([])
-
-   const {isLoading,  classes,  refetch} = useClass()
-   console.log(classes)
+    const { isLoading, classes, refetch } = useClass()
+    console.log(classes)
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
 
-   
+
     // State to control the modal visibility
     // const { register, handleSubmit } = useForm(); // Form hook to handle form submission
 
 
     const onSubmit = (e) => {
         setIsDispabled(true)
-        e.preventDefault()
-        const form = e.target;
-        const name = form.className.value;
-        const price = form.price.value;
-        const seats = form.availableSeats.value
-        const details = form.details.value
-        const classImg = form.ClassImg.files[0];
-console.log("fanction is hitting")
-        const formData = new FormData()
-        formData.append("image", classImg)
-        fetch(imgHostingLink, {
-            method: "POST",
-            body: formData
-        })
-            .then(res => res.json())
-            .then(imgRes => {
-                if (imgRes.success) {
-                    const imgURL = imgRes.data.display_url;
-                    const updatedValue = {
-                        name: name,
-                        instructorName: user.displayName,
-                        instructorEmail: user.email,
-                        availableSeats: parseFloat(seats),
-                        price: price,
-                        details,
-                        image: imgURL,
-                        status: "pending",
-                    }
-                    axios.patch(`http://localhost:4214/update-class/${classToUpdate._id}`, updatedValue)
-                        .then(res =>{
-                            setIsDispabled(false)
-                            if(res.data.modifiedCount>0){
-                                // TODO: form reset korte hobe
-                                window.my_modal_5.close()
-                                refetch()
-                                Swal.fire({
-                                    position: 'top-center',
-                                    icon: 'success',
-                                    title: 'Your Class Is Updated',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                  })
-                            }
-                        })
-                }
+       e.preventDefault()
+       const adminMessage = e.target.feedback.value
+       axios.post(`http://localhost:4214/class/${feedbackClass._id}/feedback`, 
+       {adminMessage}
+       )
+       .then(res =>{
+        refetch()
+        if (res.data.modifiedCount > 0) {
+            refetch()
+            Swal.fire({
+                position: 'top-center',
+                icon: 'success',
+                title: 'Feedback Sended',
+                showConfirmButton: false,
+                timer: 1500
             })
-
+        }
+        setIsDispabled(false)
+        formRef.current.reset();
+       })
+       
 
     };
 
-    const handleApprove = (item) =>{
+    const handleApprove = (item) => {
         axios.patch(`http://localhost:4214/class/approve/${item._id}`)
-        .then(res =>{
-            if(res.data.modifiedCount>0){
-                refetch()
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'success',
-                    title: 'Class Approved',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-            }
-        })
+            .then(res => {
+                window.my_modal_5.close()
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Class Approved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+    }
+    const handleDeny = (item) => {
+        axios.patch(`http://localhost:4214/class/deny/${item._id}`)
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    refetch()
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'warning',
+                        title: 'Class Denied',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
     }
 
     const handleUpdate = (id) => {
         const targetedClass = classes.find((item) => item._id === id);
-        setClassToUpdate(targetedClass)
+        setFeedbackClass(targetedClass)
         window.my_modal_5.showModal()
-    }
 
-    console.log(classes)
+    }
 
     return (
         <div className="overflow-x-auto">
@@ -125,8 +112,8 @@ console.log("fanction is hitting")
                 </thead>
                 {/* row 1 */}
                 <tbody>
-                {
-                        classes.filter((item)=> item.status).map((item, i) =>
+                    {
+                        classes.filter((item) => item.status).map((item, i) =>
                             <tr key={item._id}>
                                 <th>
                                     {i + 1}
@@ -155,11 +142,11 @@ console.log("fanction is hitting")
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={()=>handleApprove(item)}>Approve</button>
+                                    <button disabled={item.status === "approved" || item.status === "denied"} id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleApprove(item)}>Approve</button>
                                 </th>
                                 <th>
-                                    <button id="update-class" className="btn btn-error text-white btn-sm text-center">Deny</button>
-                                
+                                    <button disabled={item.status === "approved" || item.status === "denied"} id="deny-class" className="btn btn-error text-white btn-sm text-center" onClick={() => handleDeny(item)}>Deny</button>
+
                                 </th>
                                 <th>
                                     <button className="btn btn-success btn-sm text-center" onClick={() => handleUpdate(item._id)}>Feedback</button>
@@ -174,12 +161,15 @@ console.log("fanction is hitting")
                     classes.length > 10 &&
                     <tfoot>
                         <tr className="bg-red-600 text-white text-xl">
-                            <th></th>
+                            <th>
+                                #
+                            </th>
                             <th>Class Image</th>
                             <th>Class Info</th>
+                            <th>Instructor Info</th>
                             <th>Price</th>
-                            <th>Current Student</th>
                             <th>Status</th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -189,100 +179,14 @@ console.log("fanction is hitting")
             </table>
 
 
-            <dialog method="dialog" id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                <form onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
-                    <div className='md:flex gap-4'>
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="className">
-                                Class Name
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="text"
-                                id="className"
-                                name="className"
-                                defaultValue={classToUpdate.name}
-                            />
-                        </div>
-
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="classImg">
-                                Class Image
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="file"
-                                id="classImg"
-                                name="ClassImg"
-                                required
-                            />
-                        </div>
-
-                    </div>
-
-                    <div className="md:flex gap-4">
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorName">
-                                Instructor Name
-                            </label>
-                            <input
-                                defaultValue={user.displayName}
-                                readOnly
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="text"
-                                id="instructorName"
-
-                            />
-                        </div>
-
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorEmail">
-                                Instructor Email
-                            </label>
-                            <input
-                                defaultValue={user.email}
-                                readOnly
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="email"
-                                id="instructorEmail"
-                            />
-                        </div>
-
-                    </div>
-
-                    <div className="md:flex gap-4">
-
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="availableSeat">
-                                Available Seat
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="number"
-                                id="availableSeat"
-                                name="availableSeats"
-                                defaultValue={classToUpdate.availableSeats}
-                            />
-                        </div>
-
-                        <div className="mb-4 md:w-1/2">
-                            <label className="block mb-2 font-bold text-gray-700" htmlFor="price">
-                                Price
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                type="number"
-                                id="price"
-                                name="price"
-                                defaultValue={classToUpdate.price}
-                            />
-                        </div>
-                    </div>
-                    <textarea name="details" className="textarea w-full textarea-primary" placeholder="Details About Course"></textarea>
+            <dialog method="dialog" id="my_modal_5" className="modal modal-bottom sm:modal-middle rounded">
+                <form ref={formRef} onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
+                    
+                    <textarea name="feedback" className="textarea w-full textarea-primary" placeholder="Write Your Feedback"></textarea>
                     <br />
                     <button disabled={isDisabled} className='btn btn-primary text-white w-full' type="submit">{
                         isDisabled ? <span className="loading loading-infinity loading-lg"></span>
-                        : "Submit Update"
+                            : "Send Feedback"
                     }</button>
 
                     <div className="modal-action">
