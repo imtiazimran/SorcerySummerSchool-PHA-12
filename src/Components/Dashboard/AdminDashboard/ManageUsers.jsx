@@ -3,11 +3,17 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../Authorization/AuthProvider";
 import Swal from "sweetalert2";
-import useAdmin from "../../Hooks/useAdmin";
+import { useQuery } from "@tanstack/react-query";
 
 const ManageUsers = () => {
     const { user } = useContext(AuthContext)
-   const [isLoading, isError,  users, error, refetch] = useAdmin()
+    const { isLoading, isError, data: users = [], error, refetch } = useQuery({
+        queryKey: ["users"],
+        queryFn: async () => {
+            const res = await axios.get('http://localhost:4214/user')
+            return res.data
+        }
+    })
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
