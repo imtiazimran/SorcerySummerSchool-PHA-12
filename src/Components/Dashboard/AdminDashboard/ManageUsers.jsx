@@ -102,10 +102,10 @@ const ManageUsers = () => {
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button onClick={() => makingInstructor(item)} className="btn btn-success btn-sm text-center">Make Instructor</button>
+                                    <button disabled={item.role === "admin" || item.role === "instructor"} onClick={() => makingInstructor(item)} className="btn btn-success btn-sm text-center">Make Instructor</button>
                                 </th>
                                 <th>
-                                    <button onClick={() => makingAdmin(item)} className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
+                                    <button disabled={item.role === "admin" || item.role === "instructor"} onClick={() => makingAdmin(item)} className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
                                 </th>
                             </tr>
 
