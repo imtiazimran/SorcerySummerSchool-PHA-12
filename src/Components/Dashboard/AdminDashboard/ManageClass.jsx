@@ -80,11 +80,29 @@ console.log("fanction is hitting")
 
     };
 
+    const handleApprove = (item) =>{
+        axios.patch(`http://localhost:4214/class/approve/${item._id}`)
+        .then(res =>{
+            if(res.data.modifiedCount>0){
+                refetch()
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Class Approved',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        })
+    }
+
     const handleUpdate = (id) => {
         const targetedClass = classes.find((item) => item._id === id);
         setClassToUpdate(targetedClass)
         window.my_modal_5.showModal()
     }
+
+    console.log(classes)
 
     return (
         <div className="overflow-x-auto">
@@ -97,17 +115,18 @@ console.log("fanction is hitting")
                         </th>
                         <th>Class Image</th>
                         <th>Class Info</th>
+                        <th>Instructor Info</th>
                         <th>Price</th>
-                        <th>Total Student</th>
                         <th>Status</th>
+                        <th></th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 {/* row 1 */}
                 <tbody>
-                    {
-                        classes.map((item, i) =>
+                {
+                        classes.filter((item)=> item.status).map((item, i) =>
                             <tr key={item._id}>
                                 <th>
                                     {i + 1}
@@ -126,16 +145,24 @@ console.log("fanction is hitting")
                                     <br />
                                     <span className="badge badge-ghost badge-sm">Available Seat: {item.availableSeats}</span>
                                 </td>
+                                <td>
+                                    {item.instructorName}
+                                    <br />
+                                    <span className="badge badge-ghost badge-sm"> Email: {item.instructorEmail}</span>
+                                </td>
                                 <td>${item.price}</td>
-                                <td className="text-center">{item.enrolled}</td>
                                 <td className="text-center">{item.status}</td>
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button className="btn btn-success btn-sm text-center">Feedback</button>
+                                    <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={()=>handleApprove(item)}>Approve</button>
                                 </th>
                                 <th>
-                                    <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleUpdate(item._id)}>Updata Class</button>
+                                    <button id="update-class" className="btn btn-error text-white btn-sm text-center">Deny</button>
+                                
+                                </th>
+                                <th>
+                                    <button className="btn btn-success btn-sm text-center" onClick={() => handleUpdate(item._id)}>Feedback</button>
                                 </th>
                             </tr>
 

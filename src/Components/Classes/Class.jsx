@@ -32,7 +32,6 @@ const Classes = () => {
                 price: item.price,
                 classId: item._id,
             };
-console.log(item)
             axios.post('http://localhost:4214/cart', cartItem)
                 .then((res) => {
                     if (res.data.insertedId) {
@@ -69,7 +68,7 @@ console.log(item)
             <Title title={"popular classes"} subtitle={"so much to learn but we have the best classes among all, see our popular classes"}></Title>
             <div className='bg-gray-100 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center md:py-11 gap-3'>
                 { 
-                    classes.filter((item)=> item.status !== "pending").map((item) => (
+                    classes.filter((item)=> item.status !== "pending" && "denied").map((item) => (
 
                     <div key={item._id} className={`card w-96 p-4 shadow-xl ${item.availableSeats === 0 ? 'border-red-500 border shadow-red-500' : ' shadow-green-500 '
                         }`}>
