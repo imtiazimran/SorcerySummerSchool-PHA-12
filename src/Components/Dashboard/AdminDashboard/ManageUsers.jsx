@@ -17,6 +17,10 @@ const ManageUsers = () => {
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
+
+    const makingInstructor = (id)=>{
+        console.log(id)
+    }
     return (
         <div className="overflow-x-auto">
             <table className="table">
@@ -59,7 +63,7 @@ const ManageUsers = () => {
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button className="btn btn-success btn-sm text-center">Make Instructor</button>
+                                    <button onClick={()=>makingInstructor(item._id)} className="btn btn-success btn-sm text-center">Make Instructor</button>
                                 </th>
                                 <th>
                                     <button className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
