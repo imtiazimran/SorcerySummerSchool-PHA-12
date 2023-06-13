@@ -5,12 +5,15 @@ import { AuthContext } from "../../Authorization/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-
+const imgHostingApi = import.meta.env.VITE_updateImg_api
 const MyClass = () => {
     useTitle("SSS | SELECTED CLASSES")
     const { user } = useContext(AuthContext)
+    const [isDisabled, setIsDispabled] = useState(false)
+
+    const imgHostingLink = `https://api.imgbb.com/1/upload?key=${imgHostingApi}`
 
     const [classToUpdate, setClassToUpdate] = useState([])
 
@@ -18,7 +21,6 @@ const MyClass = () => {
         queryKey: ["myClass"],
         queryFn: async () => {
             const res = await axios.get(`http://localhost:4214/addedClass/${user.email}`)
-            refetch()
             return res.data
         }
     })
@@ -32,14 +34,60 @@ const MyClass = () => {
     // State to control the modal visibility
     // const { register, handleSubmit } = useForm(); // Form hook to handle form submission
 
-    
-    const onSubmit =  (data) => {
-        data.preventDefault()
-        console.log(data)
-        
+
+    const onSubmit = (e) => {
+        setIsDispabled(true)
+        e.preventDefault()
+        const form = e.target;
+        const name = form.className.value;
+        const price = form.price.value;
+        const seats = form.availableSeats.value
+        const details = form.details.value
+        const classImg = form.ClassImg.files[0];
+console.log("fanction is hitting")
+        const formData = new FormData()
+        formData.append("image", classImg)
+        fetch(imgHostingLink, {
+            method: "POST",
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgRes => {
+                if (imgRes.success) {
+                    const imgURL = imgRes.data.display_url;
+                    const updatedValue = {
+                        name: name,
+                        instructorName: user.displayName,
+                        instructorEmail: user.email,
+                        availableSeats: parseFloat(seats),
+                        price: price,
+                        details,
+                        image: imgURL,
+                        status: "pending",
+                    }
+                    axios.patch(`http://localhost:4214/update-class/${classToUpdate._id}`, updatedValue)
+                        .then(res =>{
+                            setIsDispabled(false)
+                            if(res.data.modifiedCount>0){
+                                // TODO: form reset korte hobe
+                                window.my_modal_5.close()
+                                refetch()
+                                Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: 'Your Class Is Updated',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                  })
+                            }
+                        })
+                }
+            })
+
+
     };
 
-    const handleUpdate =(id) =>{
+    const handleUpdate = (id) => {
         const targetedClass = myClass.find((item) => item._id === id);
         setClassToUpdate(targetedClass)
         window.my_modal_5.showModal()
@@ -94,7 +142,7 @@ const MyClass = () => {
                                     <button className="btn btn-success btn-sm text-center">Feedback</button>
                                 </th>
                                 <th>
-                                    <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() =>handleUpdate(item._id)}>Updata Class</button>
+                                    <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleUpdate(item._id)}>Updata Class</button>
                                 </th>
                             </tr>
 
@@ -120,112 +168,110 @@ const MyClass = () => {
 
             </table>
 
-            
-            <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-                 <form onSubmit={handleSubmit(onSubmit)} method="dialog" className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
-                         <div className='md:flex gap-4'>
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="className">
-                                     Class Name
-                                 </label>
-                                 <input
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="text"
-                                     id="className"
-                                     name="className"
-                                     defaultValue={classToUpdate.name}
-                                 />
-                             </div>
- 
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="classImg">
-                                     Class Image
-                                 </label>
-                                 <input
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="file"
-                                     id="classImg"
-                                     name="ClassImg"
-                                 />
-                             </div>
- 
-                         </div>
- 
-                         <div className="md:flex gap-4">
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorName">
-                                     Instructor Name
-                                 </label>
-                                 <input
-                                     defaultValue={user.displayName}
-                                     readOnly
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="text"
-                                     id="instructorName"
-                                     
-                                 />
-                             </div>
- 
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorEmail">
-                                     Instructor Email
-                                 </label>
-                                 <input
-                                     defaultValue={user.email}
-                                     readOnly
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="email"
-                                     id="instructorEmail"
-                                 />
-                             </div>
- 
-                         </div>
- 
-                         <div className="md:flex gap-4">
- 
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="availableSeat">
-                                     Available Seat
-                                 </label>
-                                 <input
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="number"
-                                     id="availableSeat"
-                                     name="availableSeats"
-                                     defaultValue={classToUpdate.availableSeats}
-                                 />
-                             </div>
- 
-                             <div className="mb-4 md:w-1/2">
-                                 <label className="block mb-2 font-bold text-gray-700" htmlFor="price">
-                                     Price
-                                 </label>
-                                 <input
-                                     className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
-                                     type="number"
-                                     id="price"
-                                     name="price"
-                                     defaultValue={classToUpdate.price}
-                                 />
-                             </div>
-                         </div>
-                         <textarea className="textarea w-full textarea-primary" placeholder="Details About Course"></textarea>
-                         <br />
-                         <input className='btn btn-primary text-white w-full' type="submit" value="Update Class" />
-                   
-                     <div className="modal-action">
-                         {/* if there is a button in form, it will close the modal */}
-                         <button className="btn">Close</button>
-                     </div>
-                 </form>
-             </dialog>
-          
 
-            <div className=" shadow-xl">
+            <dialog method="dialog" id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                <form onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
+                    <div className='md:flex gap-4'>
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="className">
+                                Class Name
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="text"
+                                id="className"
+                                name="className"
+                                defaultValue={classToUpdate.name}
+                            />
+                        </div>
 
-                {/* Open the modal using ID.showModal() method */}
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="classImg">
+                                Class Image
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="file"
+                                id="classImg"
+                                name="ClassImg"
+                                required
+                            />
+                        </div>
 
-            </div>
+                    </div>
+
+                    <div className="md:flex gap-4">
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorName">
+                                Instructor Name
+                            </label>
+                            <input
+                                defaultValue={user.displayName}
+                                readOnly
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="text"
+                                id="instructorName"
+
+                            />
+                        </div>
+
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="instructorEmail">
+                                Instructor Email
+                            </label>
+                            <input
+                                defaultValue={user.email}
+                                readOnly
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="email"
+                                id="instructorEmail"
+                            />
+                        </div>
+
+                    </div>
+
+                    <div className="md:flex gap-4">
+
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="availableSeat">
+                                Available Seat
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="number"
+                                id="availableSeat"
+                                name="availableSeats"
+                                defaultValue={classToUpdate.availableSeats}
+                            />
+                        </div>
+
+                        <div className="mb-4 md:w-1/2">
+                            <label className="block mb-2 font-bold text-gray-700" htmlFor="price">
+                                Price
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border  input-bordered input-primary  rounded-lg focus:outline-none focus:border-blue-500"
+                                type="number"
+                                id="price"
+                                name="price"
+                                defaultValue={classToUpdate.price}
+                            />
+                        </div>
+                    </div>
+                    <textarea name="details" className="textarea w-full textarea-primary" placeholder="Details About Course"></textarea>
+                    <br />
+                    <button disabled={isDisabled} className='btn btn-primary text-white w-full' type="submit">{
+                        isDisabled ? <span className="loading loading-infinity loading-lg"></span>
+                        : "Submit Update"
+                    }</button>
+
+                    <div className="modal-action">
+                        {/* if there is a button in form, it will close the modal */}
+                        <span onClick={() => window.my_modal_5.close()} className="btn">Close</span>
+                    </div>
+                </form>
+            </dialog>
+
 
         </div>
     );

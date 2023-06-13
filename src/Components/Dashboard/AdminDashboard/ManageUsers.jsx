@@ -22,15 +22,13 @@ const ManageUsers = () => {
             <table className="table">
                 {/* head */}
                 <thead>
-                    <tr className="text-xl bg-blue-600 text-white">
+                    <tr className="text-xl text-center bg-blue-600 text-white">
                         <th>
                             #
                         </th>
-                        <th>Class Image</th>
-                        <th>Class Info</th>
-                        <th>Price</th>
-                        <th>Total Student</th>
-                        <th>Status</th>
+                        <th>User Image</th>
+                        <th>User Info</th>
+                        <th>Role</th>
                         <th className="text-green-400">Total Users:</th>
                         <th className="text-green-400">{users.length}</th>
                     </tr>
@@ -55,18 +53,16 @@ const ManageUsers = () => {
                                 <td>
                                     {item.name}
                                     <br />
-                                    <span className="badge badge-ghost badge-sm">Available Seat: {item.availableSeats}</span>
+                                    <span className="badge badge-ghost badge-sm">Email: {item.email}</span>
                                 </td>
-                                <td>${item.price}</td>
-                                <td className="text-center">{item.currentStudent}</td>
-                                <td className="text-center">{item?.status}</td>
+                                <td>Student</td>
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button className="btn btn-success btn-sm text-center">Feedback</button>
+                                    <button className="btn btn-success btn-sm text-center">Make Instructor</button>
                                 </th>
                                 <th>
-                                    <button className="btn btn-primary text-white btn-sm text-center">Updata Class</button>
+                                    <button className="btn btn-primary text-white btn-sm text-center"> Make Admin</button>
                                 </th>
                             </tr>
 
@@ -79,8 +75,8 @@ const ManageUsers = () => {
                     <tfoot>
                         <tr className="bg-red-600 text-white text-xl">
                             <th></th>
-                            <th>Class Image</th>
-                            <th>Class Info</th>
+                            <th>User Image</th>
+                            <th>User Info</th>
                             <th>Price</th>
                             <th>Current Student</th>
                             <th>Status</th>
