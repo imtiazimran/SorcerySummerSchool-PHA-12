@@ -12,7 +12,6 @@ const SelectedClass = () => {
     useTitle("SSS | SELECTED CLASSES")
 
     const [isLoading, isError, cart, error, refetch] = useCart()
-console.log(cart)
 
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;

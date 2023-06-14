@@ -9,12 +9,17 @@ const EnrolledClass = () => {
     useTitle("SSS |  ENROLLED CLASS")
 
     const {user} = useContext(AuthContext)
+    
+    const accessToken = localStorage.getItem("access-token");
 
     const { isLoading, isError, data: paidClass = [], error } = useQuery({
         queryKey: ['payment'],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:4214/payment/${user.email}`);
-            console.log(res.data)
+            const res = await axios.get(`http://localhost:4214/payment/${user.email}`,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  }
+            });
             return res.data;
         },
     });

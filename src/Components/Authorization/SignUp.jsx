@@ -17,7 +17,7 @@ const SignUp = () => {
 
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signUp } = useContext(AuthContext)
+    const { signUp, profileUpdate } = useContext(AuthContext)
     const onSubmit = data => {
         if (data.password.length < 6) {
             toast.error('Password must be at least 6 characters long');
@@ -55,6 +55,8 @@ const SignUp = () => {
             })
             .catch(err => console.log(err));
 
+            profileUpdate(data.name, data.photo)
+            .then(()=>{})
     };
 
     const togglePasswordVisibility = () => {

@@ -76,7 +76,7 @@ const router = createBrowserRouter([
       // user Routes
       {
         path: "selectedClass",
-        element: <CheckStudent><SelectedClass></SelectedClass></CheckStudent>
+        element: <SelectedClass></SelectedClass>
       },
       {
         path: "enrolledClass",

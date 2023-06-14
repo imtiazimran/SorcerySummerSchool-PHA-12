@@ -13,7 +13,10 @@ const MyClass = () => {
     useTitle("SSS | SELECTED CLASSES")
     const { user } = useContext(AuthContext)
     const [isDisabled, setIsDispabled] = useState(false)
+    const [feedback, setFeedback] = useState("")
     
+    const accessToken = localStorage.getItem("access-token");
+
     const formRef = useRef(null);
 
     const imgHostingLink = `https://api.imgbb.com/1/upload?key=${imgHostingApi}`
@@ -23,7 +26,11 @@ const MyClass = () => {
     const { isLoading, isError, data: myClass = [], error, refetch } = useQuery({
         queryKey: ["myClass"],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:4214/addedClass/${user.email}`)
+            const res = await axios.get(`http://localhost:4214/addedClass/${user.email}`,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  }
+            })
             return res.data
         }
     })
@@ -96,8 +103,9 @@ const MyClass = () => {
         window.my_modal_5.showModal()
     }
 
-    const showFeedback = (item) =>{
-        console.log(item.feedback.adminMessage)
+    const showFeedback = (item) => {
+        setFeedback(item.feedback.adminMessage)
+         window.my_modal_2.showModal()
     }
     return (
         <div className="overflow-x-auto">
@@ -145,7 +153,7 @@ const MyClass = () => {
 
                                 {/** TODO: make the buttons dynamic 1 */}
                                 <th>
-                                    <button onClick={()=>showFeedback(item)} className="btn btn-success btn-sm text-center">Feedback</button>
+                                    <button onClick={() => showFeedback(item)} className="btn btn-success btn-sm text-center">Feedback</button>
                                 </th>
                                 <th>
                                     <button id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleUpdate(item._id)}>Updata Class</button>
@@ -174,7 +182,7 @@ const MyClass = () => {
 
             </table>
 
-
+            {/* Update Modal */}
             <dialog method="dialog" id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <form ref={formRef} onSubmit={onSubmit} className="w-2/4 mx-auto p-5 bg-white rounded shadow-xl">
                     <div className='md:flex gap-4'>
@@ -278,6 +286,17 @@ const MyClass = () => {
                 </form>
             </dialog>
 
+
+            {/* Feedback Modal */}
+            <dialog id="my_modal_2" className="modal">
+                <form method="dialog" className="modal-box">
+                    <h3 className="font-bold text-lg">Admin Reason for Deniel!</h3>
+                    <p className="py-4">{feedback}</p>
+                </form>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
 
         </div>
     );

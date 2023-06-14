@@ -12,7 +12,6 @@ const Dashboard = () => {
             </div>
         );
     }
-    console.log(userRole);
 
     return (
         <div>

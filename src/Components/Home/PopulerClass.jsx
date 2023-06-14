@@ -11,7 +11,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const PopulerClass = () => {
     const {user} = useContext(AuthContext)
     const {userRole} = useUserRole()
-    console.log(userRole)
     const  {isLoading, isError, classes, error, refetch} = useClass()
     const navigate = useNavigate()
 
@@ -48,7 +47,6 @@ const PopulerClass = () => {
                             timer: 1500,
                         });
                     }
-                    console.log(res.data);
                 })
                 .catch((error) => {
                     console.error(error);

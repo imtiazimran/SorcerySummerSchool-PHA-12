@@ -6,11 +6,16 @@ import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 
 const ManageUsers = () => {
+    const accessToken = localStorage.getItem("access-token");
     const { user } = useContext(AuthContext)
     const { isLoading, isError, data: users = [], error, refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:4214/user')
+            const res = await axios.get('http://localhost:4214/user',{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  }
+            })
             return res.data
         }
     })

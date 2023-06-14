@@ -9,6 +9,7 @@ import useClass from "../../Hooks/useClass";
 const ManageClass = () => {
     useTitle("SSS | MANAGE CLASSES")
 
+
     const formRef = useRef(null);
     const [isDisabled, setIsDispabled] = useState(false)
 

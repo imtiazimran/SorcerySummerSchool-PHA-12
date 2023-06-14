@@ -7,7 +7,7 @@ import useUserRole from "../Hooks/useUserRole";
 const CheckStudent = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
     const {userRole} = useUserRole()
-        if (user && !userRole) {
+        if (user && (!userRole || userRole.role === "")) {
             // Redirect to the page
             return children;
         }
