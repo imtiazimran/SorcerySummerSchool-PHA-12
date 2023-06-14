@@ -1,24 +1,25 @@
 import { useContext } from "react";
 import { AuthContext } from "../Authorization/AuthProvider";
+import useUserRole from "../Hooks/useUserRole";
 
 
 const DashboardOverview = () => {
     const {user} = useContext(AuthContext)
     // TODO: make the admin dynamic 
-    // const user = true
+        const {userRole} = useUserRole()
     return (
         <div>
             {
-                user.role === "admin" && 
+                userRole.role === "admin" && 
                     <h3 className="text-xl">welcome Mr.Admin</h3>
                 
             }
             {
-                user.role === "instructors" && 
+                userRole.role === "instructors" && 
                 <h3 className="text-xl">Welcome Mr.Instructor</h3>
             }
             {
-                user && user.role ||
+                user && !userRole &&
                 <h3 className="text-xl">Welcome Back {user.displayName}</h3>
             }
 

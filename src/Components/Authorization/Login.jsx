@@ -74,8 +74,8 @@ const Login = () => {
                         </div>
                         <Link className="text-emerald-300 mx-3" to="/signup">Are You New Here? <button className=" btn-link">Register</button></Link>
                         <div className="divider">OR</div>
+                        </form>
                         <GoogleLoginButton></GoogleLoginButton>
-                    </form>
                 </div>
             </div>
         </div>

@@ -7,10 +7,13 @@ import { useContext } from 'react';
 import { AuthContext } from '../Authorization/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTitle } from '../Hooks/useTitle';
+import useUserRole from '../Hooks/useUserRole';
 
 const Classes = () => {
     useTitle("SSS |  CLASSES")
-    const {isLoading, isError, classes, error, refetch} = useClass()
+
+    const { userRole } = useUserRole()
+    const { isLoading, isError, classes, error, refetch } = useClass()
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
     const from = useLocation()
@@ -21,8 +24,6 @@ const Classes = () => {
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
-
-
     const handleCart = (item) => {
         if (user) {
             const cartItem = {
@@ -56,9 +57,9 @@ const Classes = () => {
                 text: 'Please login to add items to the cart.',
                 confirmButtonText: 'Login',
             })
-            .then(() => {
-                navigate('/login', { state: { from } });
-            });
+                .then(() => {
+                    navigate('/login', { state: { from } });
+                });
         }
     };
 
@@ -67,37 +68,37 @@ const Classes = () => {
         <div>
             <Title title={"popular classes"} subtitle={"so much to learn but we have the best classes among all, see our popular classes"}></Title>
             <div className='bg-gray-100 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center md:py-11 gap-3'>
-                { 
-                    classes.filter((item)=> item.status !== "pending" && item.status !== "denied").map((item) => (
+                {
+                    classes.filter((item) => item.status !== "pending" && item.status !== "denied").map((item) => (
 
-                    <div key={item._id} className={`card w-96 p-4 shadow-xl ${item.availableSeats === 0 ? 'border-red-500 border shadow-red-500' : ' shadow-green-500 '
-                        }`}>
-                        
-                        <figure>
-                            <div className='h-[250px]'>
-                                <img
-                                    className='w-full h-full'
-                                    src={item.image}
-                                />
-                            </div>
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{item.name}!</h2>
-                            <p>Details: {item.tutorialDescription}</p>
-                            <p>Instructor: <span className='text-xl'>{item.instructorName}</span></p>
-                            <p>Available Seats: <span className='text-xl'>{item.availableSeats}</span></p>
-                            <p>Total Enrolled: <span className='text-xl'>{item.enrolled}</span></p>
-                            <p>Price: <span className='text-xl text-orange-500'>${item.price}</span></p>
-                            <div className="card-actions justify-end">
-                            {/**TODO: MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
-                                <button disabled={item.availableSeats === 0} onClick={() => handleCart(item)} className="btn btn-primary">Add To Cart</button>
-                            </div>
-                            <ul>
+                        <div key={item._id} className={`card w-96 p-4 shadow-xl ${item.availableSeats === 0 ? 'border-red-500 border shadow-red-500' : ' shadow-green-500 '
+                            }`}>
 
-                            </ul>
+                            <figure>
+                                <div className='h-[250px]'>
+                                    <img
+                                        className='w-full h-full'
+                                        src={item.image}
+                                    />
+                                </div>
+                            </figure>
+                            <div className="card-body">
+                                <h2 className="card-title">{item.name}!</h2>
+                                <p>Details: {item.tutorialDescription}</p>
+                                <p>Instructor: <span className='text-xl'>{item.instructorName}</span></p>
+                                <p>Available Seats: <span className='text-xl'>{item.availableSeats}</span></p>
+                                <p>Total Enrolled: <span className='text-xl'>{item.enrolled}</span></p>
+                                <p>Price: <span className='text-xl text-orange-500'>${item.price}</span></p>
+                                <div className="card-actions justify-end">
+                                    {/**TODO: MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
+                                    <button disabled={item.availableSeats === 0 || userRole} onClick={() => handleCart(item)} className="btn btn-primary">Select Class</button>
+                                </div>
+                                <ul>
+
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
         </div>
     );

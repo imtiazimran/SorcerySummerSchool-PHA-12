@@ -7,7 +7,7 @@ import CheckOutForm from './CheckForm';
 // TODO:  add pk link
 const stripePromise = loadStripe(import.meta.env.VITE_payment_pk)
 const PayClass = () => {
-    const [isLoading, isError, cart, error] = useCart();
+    const [isLoading, isError, cart, error, refetch] = useCart();
     const total = cart.reduce((sum, item) => sum + item.price, 0);
     const price = Math.round(total);
     console.log(total)
@@ -23,7 +23,7 @@ const PayClass = () => {
         <div className='w-full'>
         <div>You are paying {price}</div>
             <Elements stripe={stripePromise}>
-                <CheckOutForm cart={cart} price={price}></CheckOutForm>
+                <CheckOutForm refetch={refetch} cart={cart} price={price}></CheckOutForm>
             </Elements>
 
         </div>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from "../../Firebase/firebase.config";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ const auth = getAuth(app)
 
 const googleProvider = new GoogleAuthProvider(auth)
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext()
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -30,25 +30,34 @@ const AuthProvider = ({children}) => {
     }
 
     useEffect(()=>{
-        const unMount = onAuthStateChanged(auth, (currentUser) =>{
-            setLoading(false)
+        const unsubcribe = onAuthStateChanged(auth, (currentUser) =>{
+            
+            setUser(currentUser)
             if(currentUser){
-                setUser(currentUser)
 
                 axios.post("http://localhost:4214/jwt", {email: currentUser.email})
                 .then(data => {
                     localStorage.setItem("access-token", data.data)
+                    setLoading(false)
                 })
             }
             else{
                 localStorage.removeItem("access-token")
+                setLoading(false)
             }
         })
         return () =>{
-            return unMount()
+            return unsubcribe()
         }
 
     },[])
+
+    const profileUpdate = (name, photo) =>{
+        return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+          })
+          
+    }
 
     const logOut = () => {
         return signOut(auth)
@@ -58,6 +67,7 @@ const AuthProvider = ({children}) => {
         login,
         googleLogin,
         logOut,
+        profileUpdate,
         user,
         loading
     }

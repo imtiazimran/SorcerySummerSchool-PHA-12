@@ -2,10 +2,12 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
+import useUserRole from "../Hooks/useUserRole";
 
-const PrivetRoute = ({ children }) => {
+const CheckStudent = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
-        if (user) {
+    const {userRole} = useUserRole()
+        if (user && !userRole) {
             // Redirect to the page
             return children;
         }
@@ -18,7 +20,7 @@ const PrivetRoute = ({ children }) => {
         );
     }
 
-    return <Navigate to="/login"></Navigate>;
+    return <Navigate to="/"></Navigate>;
 };
 
-export default PrivetRoute;
+export default CheckStudent;

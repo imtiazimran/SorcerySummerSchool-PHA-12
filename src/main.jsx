@@ -30,6 +30,9 @@ import MyClass from './Components/Dashboard/InstructorDashboard/MyClass.jsx';
 import PayClass from './Components/Dashboard/UserDashboard/PayClass.jsx';
 import ManageUsers from './Components/Dashboard/AdminDashboard/ManageUsers.jsx';
 import ManageClass from './Components/Dashboard/AdminDashboard/ManageClass.jsx';
+import CheckAdmin from './Components/Authorization/CheckAdmin.jsx';
+import CheckInstructor from './Components/Authorization/CheckInstructor.jsx';
+import CheckStudent from './Components/Authorization/CheckStudent.jsx';
 
 const queryClient = new QueryClient()
 
@@ -73,11 +76,11 @@ const router = createBrowserRouter([
       // user Routes
       {
         path: "selectedClass",
-        element: <SelectedClass></SelectedClass>
+        element: <CheckStudent><SelectedClass></SelectedClass></CheckStudent>
       },
       {
         path: "enrolledClass",
-        element: <EnrolledClass></EnrolledClass>
+        element: <CheckStudent><EnrolledClass></EnrolledClass></CheckStudent>
       },
       {
         path: "payClass",
@@ -86,20 +89,20 @@ const router = createBrowserRouter([
       // instructors route
       {
         path: "addClass",
-        element: <AddClass></AddClass>
+        element: <CheckInstructor><AddClass></AddClass></CheckInstructor>
       },
       {
         path: "myClass",
-        element: <MyClass></MyClass>
+        element: <CheckInstructor><MyClass></MyClass></CheckInstructor>
       },
       // admin routes
       {
         path: "manageUsers",
-        element: <ManageUsers></ManageUsers>
+        element: <CheckAdmin><ManageUsers></ManageUsers></CheckAdmin>
       },
       {
         path: "manageClass",
-        element: <ManageClass></ManageClass>
+        element: <CheckAdmin> <ManageClass></ManageClass></CheckAdmin>
       }
     ]
   }

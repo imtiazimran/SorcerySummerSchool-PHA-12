@@ -36,8 +36,6 @@ const MyClass = () => {
     }
     // State to control the modal visibility
     // const { register, handleSubmit } = useForm(); // Form hook to handle form submission
-
-
     const onSubmit = (e) => {
         setIsDispabled(true)
         e.preventDefault()
@@ -99,7 +97,7 @@ const MyClass = () => {
     }
 
     const showFeedback = (item) =>{
-        console.log(item.feedback)
+        console.log(item.feedback.adminMessage)
     }
     return (
         <div className="overflow-x-auto">

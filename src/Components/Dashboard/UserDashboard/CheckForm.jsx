@@ -9,7 +9,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 
-const CheckOutForm = ({ cart, price }) => {
+const CheckOutForm = ({ cart, price, refetch }) => {
     const [error, setError] = useState('')
     const stripe = useStripe()
     const elements = useElements()
@@ -98,10 +98,9 @@ const CheckOutForm = ({ cart, price }) => {
                   }
             })
                 .then(res => {
-                    console.log(res)
                     if (res.data.result.insertedId) {
                         // display confirmation
-                        
+                        refetch()
                         Swal.fire({
                             icon: 'success',
                             title: 'Payment Success!',

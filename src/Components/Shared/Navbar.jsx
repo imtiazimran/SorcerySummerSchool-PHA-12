@@ -6,37 +6,41 @@ import Swal from "sweetalert2";
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
 
-    // TODO: make user role dynamic
-   
+    console.log(user.displayName)
 
-const handleLogOut = async () => {
-  try {
-    // Display a confirmation alert before logging out
-    const result = await Swal.fire({
-      title: 'Logout',
-      text: 'Are you sure you want to logout?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Logout',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-    });
 
-    if (result.isConfirmed) {
-      // User confirmed logout, perform the logout action
-      await logOut();
-      console.log('User logged out');
-      // You can redirect to the login page or perform any other necessary actions here
-    } else {
-      // User clicked cancel or closed the alert
-      console.log('Logout canceled');
-    }
-  } catch (error) {
-    console.log('Error logging out:', error);
-  }
-};
+    const handleLogOut = async () => {
+        try {
+            // Display a confirmation alert before logging out
+            const result = await Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+            });
 
-      
+            if (result.isConfirmed) {
+                // User confirmed logout, perform the logout action
+                logOut()
+                    .then(() => {
+
+                        console.log('User logged out');
+                    })
+                    .catch(err => { console.log(err) })
+                // You can redirect to the login page or perform any other necessary actions here
+            } else {
+                // User clicked cancel or closed the alert
+                console.log('Logout canceled');
+            }
+        } catch (error) {
+            console.log('Error logging out:', error);
+        }
+    };
+
+
 
     return (
         <div className="navbar bg-white px-10 h-11">
@@ -72,11 +76,11 @@ const handleLogOut = async () => {
 
             </div>
             <div className="navbar-end ">
-                {user ? (
+                {user?.email ? (
                     <div className="avatar flex gap-5">
-                    <button onClick={handleLogOut} className="btn btn-outline btn-accent">Log Out</button>
+                        <button onClick={handleLogOut} className="btn btn-outline btn-accent">Log Out</button>
                         <div data-tip={user?.displayName} className="tooltip w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                            <img src={user?.photoURL} />
+                                <img src={user?.photoURL} />
                         </div>
                     </div>
                 ) : (

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useTitle } from "../../Hooks/useTitle";
-import { AuthContext } from "../../Authorization/AuthProvider";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -16,7 +15,6 @@ const ManageClass = () => {
     const [feedbackClass, setFeedbackClass] = useState([])
 
     const { isLoading, classes, refetch } = useClass()
-    console.log(classes)
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;
     }
