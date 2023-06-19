@@ -24,7 +24,7 @@ console.log(from)
                 showConfirmButton: false,
                 timer: 1000,
             });
-            axios.post('http://localhost:4214/user', user )
+            axios.post('https://summer-camp-server-weld.vercel.app/user', user )
                 .then(res =>{
                     console.log(res.data)
                 })

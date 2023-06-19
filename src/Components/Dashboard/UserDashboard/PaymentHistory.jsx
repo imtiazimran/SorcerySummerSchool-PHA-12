@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
 import { AuthContext } from '../../Authorization/AuthProvider';
 
-const EnrolledClass = () => {
+const PaymentHistory = () => {
     useTitle("SSS |  ENROLLED CLASS")
 
     const {user} = useContext(AuthContext)
@@ -108,4 +108,4 @@ const EnrolledClass = () => {
     );
 };
 
-export default EnrolledClass;
+export default PaymentHistory;

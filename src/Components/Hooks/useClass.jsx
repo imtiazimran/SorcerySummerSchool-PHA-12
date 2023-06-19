@@ -8,7 +8,7 @@ const useClass = () => {
     const { isLoading, isError, data: classes = [], error, refetch } = useQuery({
         queryKey: ['populerClass'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:4214/populerClass',{
+            const res = await axios.get('https://summer-camp-server-weld.vercel.app/populerClass',{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                   }

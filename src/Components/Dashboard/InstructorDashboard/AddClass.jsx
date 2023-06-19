@@ -38,7 +38,7 @@ const AddClass = () => {
             enrolled: 0
           }
           axios
-            .post('http://localhost:4214/class', newClass)
+            .post('https://summer-camp-server-weld.vercel.app/class', newClass)
             .then(res => {
               if (res.data.insertedId) {
                 Swal.fire({

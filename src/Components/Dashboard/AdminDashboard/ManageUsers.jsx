@@ -11,7 +11,7 @@ const ManageUsers = () => {
     const { isLoading, isError, data: users = [], error, refetch } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:4214/user',{
+            const res = await axios.get('https://summer-camp-server-weld.vercel.app/user',{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                   }
@@ -28,7 +28,7 @@ const ManageUsers = () => {
     }
 
     const makingInstructor = (item) => {
-        axios.patch(`http://localhost:4214/users/instructor/${item._id}`)
+        axios.patch(`https://summer-camp-server-weld.vercel.app/users/instructor/${item._id}`)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     refetch()
@@ -45,7 +45,7 @@ const ManageUsers = () => {
 
     const makingAdmin = (item) => {
         console.log(item)
-        axios.patch(`http://localhost:4214/users/admin/${item._id}`)
+        axios.patch(`https://summer-camp-server-weld.vercel.app/users/admin/${item._id}`)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     refetch()
@@ -108,7 +108,7 @@ const ManageUsers = () => {
 
                                 </td>
 
-                                {/** TODO: make the buttons dynamic 1 */}
+                                {/**  make the buttons dynamic 1 */}
                                 <th>
                                     <button disabled={item.role === "admin" || item.role === "instructor"} onClick={() => makingInstructor(item)} className="btn btn-success btn-sm text-center">Make Instructor</button>
                                 </th>

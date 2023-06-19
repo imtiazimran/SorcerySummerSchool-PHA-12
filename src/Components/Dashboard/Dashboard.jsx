@@ -4,7 +4,6 @@ import useUserRole from "../Hooks/useUserRole";
 
 const Dashboard = () => {
     const { userRole, isLoading } = useUserRole();
-    console.log(userRole);
     if (isLoading) {
         return (
             <div className="w-full h-screen flex justify-center items-center">
@@ -51,10 +50,10 @@ const Dashboard = () => {
                             {!userRole.role && (
                                 <div>
                                     <li>
-                                        <Link to="selectedClass">My Selected Items</Link>
+                                        <Link to="/dashboard/selectedClass">My Selected Items</Link>
                                     </li>
                                     <li>
-                                        <Link to="enrolledClass">My Enrolled Class</Link>
+                                        <Link to="/dashboard/PaymentHistory">My Enrolled Class</Link>
                                     </li>
                                 </div>
                             )}

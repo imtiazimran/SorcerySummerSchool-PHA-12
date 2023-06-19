@@ -6,6 +6,7 @@ const VideoTutorials = () => {
                 <div className="md:hidden">
                 <img src="https://i.gifer.com/7jk2.gif" alt="" />
                 </div>
+                <div>the the video to get a idea how cool is the cardestry is</div>
                 <div className="hidden md:block">
                     <iframe width="600" height="415" src="https://www.youtube.com/embed/I0KSaqiv5C0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>

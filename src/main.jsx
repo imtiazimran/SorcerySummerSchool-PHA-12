@@ -22,7 +22,7 @@ import Classes from './Components/Classes/Class.jsx';
 import Error404 from './Components/Shared/Error.jsx';
 import Dashboard from './Components/Dashboard/Dashboard.jsx';
 import SelectedClass from './Components/Dashboard/UserDashboard/SelectedClass.jsx';
-import EnrolledClass from './Components/Dashboard/UserDashboard/EnrolledClass.jsx';
+// import EnrolledClass from './Components/Dashboard/UserDashboard/EnrolledClass.jsx';
 import PrivetRoute from './Components/Authorization/PrivetRoute.jsx';
 import DashboardOverview from './Components/Dashboard/DashboardOverview.jsx';
 import AddClass from './Components/Dashboard/InstructorDashboard/AddClass.jsx';
@@ -32,7 +32,7 @@ import ManageUsers from './Components/Dashboard/AdminDashboard/ManageUsers.jsx';
 import ManageClass from './Components/Dashboard/AdminDashboard/ManageClass.jsx';
 import CheckAdmin from './Components/Authorization/CheckAdmin.jsx';
 import CheckInstructor from './Components/Authorization/CheckInstructor.jsx';
-import CheckStudent from './Components/Authorization/CheckStudent.jsx';
+import PaymentHistory from './Components/Dashboard/UserDashboard/PaymentHistory.jsx';
 
 const queryClient = new QueryClient()
 
@@ -79,8 +79,8 @@ const router = createBrowserRouter([
         element: <SelectedClass></SelectedClass>
       },
       {
-        path: "enrolledClass",
-        element: <CheckStudent><EnrolledClass></EnrolledClass></CheckStudent>
+        path: "PaymentHistory",
+        element: <PaymentHistory></PaymentHistory>
       },
       {
         path: "payClass",

@@ -36,7 +36,7 @@ const PopulerClass = () => {
                 price: item.price,
                 classId: item._id,
             };
-            axios.post('http://localhost:4214/cart', cartItem)
+            axios.post('https://summer-camp-server-weld.vercel.app/cart', cartItem)
                 .then((res) => {
                     if (res.data.insertedId) {
                         refetch()
@@ -89,7 +89,7 @@ const PopulerClass = () => {
                                 <p>Total Enrolled: <span className='text-xl'>{item.enrolled}</span></p>
                                 <p>Price: <span className='text-xl text-orange-500'>${item.price}</span></p>
                                 <div className="card-actions justify-end">
-                                    {/**TODO: MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
+                                    {/**: MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
                                     <button disabled={item.availableSeats === 0 || userRole.role === "admin" || userRole.role === "instructor"} onClick={() => handleCart(item)} className="btn btn-primary">Select Class</button>
                                 </div>
                                 <ul>

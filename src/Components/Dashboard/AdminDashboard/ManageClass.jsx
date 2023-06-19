@@ -29,7 +29,7 @@ const ManageClass = () => {
         setIsDispabled(true)
        e.preventDefault()
        const adminMessage = e.target.feedback.value
-       axios.post(`http://localhost:4214/class/${feedbackClass._id}/feedback`, 
+       axios.post(`https://summer-camp-server-weld.vercel.app/class/${feedbackClass._id}/feedback`, 
        {adminMessage}
        )
        .then(res =>{
@@ -52,7 +52,7 @@ const ManageClass = () => {
     };
 
     const handleApprove = (item) => {
-        axios.patch(`http://localhost:4214/class/approve/${item._id}`)
+        axios.patch(`https://summer-camp-server-weld.vercel.app/class/approve/${item._id}`)
             .then(res => {
                 window.my_modal_5.close()
                 if (res.data.modifiedCount > 0) {
@@ -68,7 +68,7 @@ const ManageClass = () => {
             })
     }
     const handleDeny = (item) => {
-        axios.patch(`http://localhost:4214/class/deny/${item._id}`)
+        axios.patch(`https://summer-camp-server-weld.vercel.app/class/deny/${item._id}`)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
                     refetch()
@@ -139,7 +139,7 @@ const ManageClass = () => {
                                 <td>${item.price}</td>
                                 <td className="text-center">{item.status}</td>
 
-                                {/** TODO: make the buttons dynamic 1 */}
+                                {/**  make the buttons dynamic 1 */}
                                 <th>
                                     <button disabled={item.status === "approved" || item.status === "denied"} id="update-class" className="btn btn-primary text-white btn-sm text-center" onClick={() => handleApprove(item)}>Approve</button>
                                 </th>

@@ -33,7 +33,7 @@ const SelectedClass = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 axios
-                    .delete(`http://localhost:4214/cart/${id}`)
+                    .delete(`https://summer-camp-server-weld.vercel.app/cart/${id}`)
                     .then(data => {
                         if (data.data.deletedCount > 0) {
                             refetch()

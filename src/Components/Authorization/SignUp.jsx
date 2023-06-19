@@ -47,7 +47,7 @@ const SignUp = () => {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                axios.post('http://localhost:4214/user', user)
+                axios.post('https://summer-camp-server-weld.vercel.app/user', user)
                 .then(res => {
                         navigate('/')
                         console.log(res.data)

@@ -22,7 +22,7 @@ const CheckOutForm = ({ cart, price, refetch }) => {
     useEffect(() => {
         if (price > 0) {
             axios  
-            .post("http://localhost:4214/create-payment-intent", { price }, {
+            .post("https://summer-camp-server-weld.vercel.app/create-payment-intent", { price }, {
                 headers: {
                   Authorization: `Bearer ${accessToken}`,
                 }
@@ -92,7 +92,7 @@ const CheckOutForm = ({ cart, price, refetch }) => {
                 cartItems: cart.map(item => item.classId),
                 itemNames: cart.map(item => item.name)
             }
-            axios.post('http://localhost:4214/payment', payment, {
+            axios.post('https://summer-camp-server-weld.vercel.app/payment', payment, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                   }

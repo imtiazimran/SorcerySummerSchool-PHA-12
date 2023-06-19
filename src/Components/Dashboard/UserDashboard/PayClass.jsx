@@ -4,7 +4,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import useCart from './../../Hooks/useCart';
 import CheckOutForm from './CheckForm';
 
-// TODO:  add pk link
+// add pk link
 const stripePromise = loadStripe(import.meta.env.VITE_payment_pk)
 const PayClass = () => {
     const [isLoading, isError, cart, error, refetch] = useCart();

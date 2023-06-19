@@ -11,7 +11,7 @@ const useCart = () => {
     const { isLoading, isError, data: cart = [], error, refetch } = useQuery({
         queryKey: ["cart"],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:4214/cart?email=${user.email}`,{
+            const res = await axios.get(`https://summer-camp-server-weld.vercel.app/cart?email=${user.email}`,{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                   }

@@ -8,7 +8,7 @@ const useUserRole = () => {
   const { isLoading, isError, data: userRole } = useQuery({
     queryKey: ["role"],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:4214/users/admin/${user?.email}`);
+      const res = await axios.get(`https://summer-camp-server-weld.vercel.app/users/admin/${user?.email}`);
       return res.data;
     }
   });

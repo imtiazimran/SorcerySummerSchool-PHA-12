@@ -5,7 +5,7 @@ import Title from '../Shared/Title';
 
 const Instructors = () => {
     useTitle("SSS |  INSTRUCTORS")
-    const [isLoading, isError, instructors, error] = useInstructors()
+    const {isLoading, isError, instructors, error} = useInstructors()
 
     if (isLoading) {
         return <div className='w-full  h-screen  flex justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>;

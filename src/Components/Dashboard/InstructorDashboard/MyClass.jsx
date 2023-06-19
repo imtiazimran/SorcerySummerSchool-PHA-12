@@ -26,7 +26,7 @@ const MyClass = () => {
     const { isLoading, isError, data: myClass = [], error, refetch } = useQuery({
         queryKey: ["myClass"],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:4214/addedClass/${user.email}`,{
+            const res = await axios.get(`https://summer-camp-server-weld.vercel.app/addedClass/${user.email}`,{
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                   }
@@ -73,7 +73,7 @@ const MyClass = () => {
                         image: imgURL,
                         status: "pending",
                     }
-                    axios.patch(`http://localhost:4214/update-class/${classToUpdate._id}`, updatedValue)
+                    axios.patch(`https://summer-camp-server-weld.vercel.app/update-class/${classToUpdate._id}`, updatedValue)
                         .then(res => {
                             setIsDispabled(false)
                             if (res.data.modifiedCount > 0) {
