@@ -21,5 +21,6 @@ module.exports = {
   plugins: ['react', 'react-hooks'],
   "rules": {
     "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
-  }
+  },
+  "eslint-disable-next-line no-unused-vars"
 };
