@@ -1,6 +1,7 @@
 import { useTitle } from "../Hooks/useTitle";
 import Blog from "./Blog";
 import Carouslider from "./Carousel";
+import FAQ from "./FAQ";
 import PopulerClass from "./PopulerClass";
 import PopulerInstructors from "./PopulerInstructors";
 import VideoTutorials from "./VideoTutorials";
@@ -15,6 +16,7 @@ const Home = () => {
             <PopulerInstructors></PopulerInstructors>
             <Blog/>
             <VideoTutorials></VideoTutorials>
+            <FAQ/>
         </div>
     );
 };
