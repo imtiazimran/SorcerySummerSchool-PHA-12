@@ -33,6 +33,7 @@ import ManageClass from './Components/Dashboard/AdminDashboard/ManageClass.jsx';
 import CheckAdmin from './Components/Authorization/CheckAdmin.jsx';
 import CheckInstructor from './Components/Authorization/CheckInstructor.jsx';
 import PaymentHistory from './Components/Dashboard/UserDashboard/PaymentHistory.jsx';
+import BlogDetails from './Components/Home/BlogDetails.jsx';
 
 const queryClient = new QueryClient()
 
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
       {
         path: "class",
         element: <Classes></Classes>
+      },
+      {
+        path : "/blogDetails/:id",
+        element: <BlogDetails/>,
+        loader: () => fetch('https://summer-camp-server-weld.vercel.app/blogs')
       }
     ]
   },
