@@ -4,6 +4,7 @@ import Carouslider from "./Carousel";
 import FAQ from "./FAQ";
 import PopulerClass from "./PopulerClass";
 import PopulerInstructors from "./PopulerInstructors";
+import Review from "./Review";
 import VideoTutorials from "./VideoTutorials";
 
 
@@ -15,6 +16,7 @@ const Home = () => {
             <PopulerClass></PopulerClass>
             <PopulerInstructors></PopulerInstructors>
             <Blog/>
+            <Review/>
             <VideoTutorials></VideoTutorials>
             <FAQ/>
         </div>
