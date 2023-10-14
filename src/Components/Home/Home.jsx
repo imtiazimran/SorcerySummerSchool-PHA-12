@@ -1,6 +1,7 @@
 import { useTitle } from "../Hooks/useTitle";
 import Blog from "./Blog";
 import Carouslider from "./Carousel";
+import CertificationAccreditation from "./CertificationAccreditation";
 import FAQ from "./FAQ";
 import PopulerClass from "./PopulerClass";
 import PopulerInstructors from "./PopulerInstructors";
@@ -17,6 +18,7 @@ const Home = () => {
             <PopulerInstructors></PopulerInstructors>
             <Blog/>
             <Review/>
+            <CertificationAccreditation/>
             <VideoTutorials></VideoTutorials>
             <FAQ/>
         </div>

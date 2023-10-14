@@ -8,16 +8,17 @@ import Swal from 'sweetalert2';
 
 const Review = () => {
     const { user } = useContext(AuthContext);
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const closeModal = useRef(null);
-
+    const [loading, setLoading] = useState(false)   
+    
     // Add state to store the review data
     const [reviews, setReviews] = useState([]);
     const [currentReviewIndex, setCurrentReviewIndex] = useState(1);
     console.log(currentReviewIndex);
     // Fetch the review data from the API
     useEffect(() => {
-        axios.get("http://localhost:4214/reviews")
+        axios.get("https://summer-camp-server-weld.vercel.app/reviews")
             .then((res) => {
                 setReviews(res.data);
             })
@@ -26,40 +27,46 @@ const Review = () => {
             });
     }, []);
 
-    const onNextReview = () => {
-        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
-    };
-
-    const onPreviousReview = () => {
-        setCurrentReviewIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
-    };
 
     const onSubmit = (data) => {
+        setLoading(true)
         const review = {
             ...data,
             rating: parseInt(data.rating),
             user: user.email,
         };
-        axios.post("http://localhost:4214/review", review)
-            .then((res) => {
-                if (res.data.insertedId) {
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'success',
-                        title: 'Review Submitted',
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                } else {
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'error',
-                        title: 'Error While Posting Review',
-                        showConfirmButton: "OK",
-                    });
-                }
-                handleCloseModal();
-            });
+        {
+            user ? 
+            axios.post("https://summer-camp-server-weld.vercel.app/review", review)
+                .then((res) => {
+                    if (res.data.insertedId) {
+                        setLoading(false)
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'Review Submitted',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        reset()
+                    } else {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: 'Error While Posting Review',
+                            showConfirmButton: "OK",
+                        });
+                    }
+                    handleCloseModal();
+                })
+                :
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Please Log In to Add Review',
+                    showConfirmButton: "OK",
+                });
+        } 
     };
 
     const handleCloseModal = () => {
@@ -84,7 +91,7 @@ const Review = () => {
                                 id={`slide${index}`}
                                 className={`carousel-item justify-center py-10 relative w-full ${currentReviewIndex === index ? 'active' : ''}`}
                             >
-                                <div className="card card-side bg-base-100 shadow-xl">
+                                <div className="card w-3/5 mx-auto card-side bg-base-100 shadow-xl">
 
                                     <div className="card-body">
                                         <h2 className="card-title">{review.name}</h2>
@@ -141,7 +148,7 @@ const Review = () => {
                                 <option>5</option>
                             </select>
                             <div className='flex gap-3 my-4'>
-                                <button className="btn">Submit</button>
+                                <button disabled={loading} className="btn">Submit</button>
                             </div>
                         </form>
                     </div>
