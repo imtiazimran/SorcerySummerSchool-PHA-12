@@ -91,7 +91,7 @@ const Classes = () => {
                                 <p>Price: <span className='text-xl text-orange-500'>${item.price}</span></p>
                                 <div className="card-actions justify-end">
                                     {/** MAKE THE BUTTON DISABLE FOR ADMIN AND FOR INSTRUCTORS */}
-                                    <button disabled={item.availableSeats === 0 || userRole} onClick={() => handleCart(item)} className="btn btn-primary">Select Class</button>
+                                    <button disabled={item.availableSeats === 0 || userRole === "Admin" || userRole === "Instructor" } onClick={() => handleCart(item)} className="btn btn-primary">Select Class</button>
                                 </div>
                                 <ul>
 

@@ -3,6 +3,7 @@ import Blog from "./Blog";
 import Carouslider from "./Carousel";
 import CertificationAccreditation from "./CertificationAccreditation";
 import EmailForm from "./EmailForm";
+import ExtraClasses from "./ExtraClasses";
 import FAQ from "./FAQ";
 import PopulerClass from "./PopulerClass";
 import PopulerInstructors from "./PopulerInstructors";
@@ -17,6 +18,7 @@ const Home = () => {
             <Carouslider></Carouslider>
             <PopulerClass></PopulerClass>
             <PopulerInstructors></PopulerInstructors>
+            <ExtraClasses/>
             <Blog/>
             <Review/>
             <CertificationAccreditation/>
