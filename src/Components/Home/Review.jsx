@@ -15,7 +15,6 @@ const Review = () => {
     // Add state to store the review data
     const [reviews, setReviews] = useState([]);
     const [currentReviewIndex, setCurrentReviewIndex] = useState(1);
-    console.log(currentReviewIndex);
     // Fetch the review data from the API
     useEffect(() => {
         axios.get("https://summer-camp-server-weld.vercel.app/reviews")

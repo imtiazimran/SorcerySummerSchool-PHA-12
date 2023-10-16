@@ -1,14 +1,17 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Title from '../Shared/Title';
 import useUserRole from '../Hooks/useUserRole';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../Authorization/AuthProvider';
 
 const ExtraClasses = () => {
     const [extraClasses, setExtraClasses] = useState([])
 
-    const {userRole} = useUserRole()
+    const { user } = useContext(AuthContext);
+    const { userRole } = useUserRole()
 
     useEffect(() => {
         axios.get("https://summer-camp-server-weld.vercel.app/extraClasses")
@@ -19,6 +22,45 @@ const ExtraClasses = () => {
                 console.error("Error fetching reviews: ", error);
             });
     }, []);
+
+    const handleCart = (item) => {
+        if (user) {
+            const cartItem = {
+                user: user.email,
+                name: item.name,
+                instructor: item.instructorName,
+                price: item.price,
+                classId: item._id,
+            };
+            axios.post('https://summer-camp-server-weld.vercel.app/cart', cartItem)
+                .then((res) => {
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Item added to cart!',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                    console.log(res.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+        else {// Set the from state to '/classes'
+            Swal.fire({
+                icon: 'error',
+                title: 'User not found',
+                text: 'Please login to add items to the cart.',
+                confirmButtonText: 'Login',
+            })
+                .then(() => {
+                    navigate('/login', { state: { from } });
+                });
+        }
+    };
+
     return (
         <div>
             <Title title={"Extra classes"} subtitle={"Check Our Exclusive extra Classes"}></Title>
